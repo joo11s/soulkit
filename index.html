@@ -180,7 +180,8 @@
             
             setTimeout(() => {
                 hideTypingIndicator();
-                const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)];
+                const randomIndex = Math.floor(Math.random() * (botResponses.length - 1)) + 1;
+                const randomResponse = botResponses[randomIndex];
                 addMessage(randomResponse, false);
             }, 1500);
         }
