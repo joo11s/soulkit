@@ -131,19 +131,19 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 <!-- LOGIN -->
 <div class="login-screen" id="loginScreen">
   <div class="login-box">
-    <span class="login-symbol">✦</span>
+    <span class="login-symbol">â¦</span>
     <div class="login-logo">SOULKIT</div>
     <div class="login-sub">AI SELLER TOOLKIT</div>
-    <input type="password" class="login-input" id="loginInput" placeholder="· · · · · · · ·">
-    <button class="login-btn" onclick="doLogin()">입장하기</button>
-    <div class="login-err" id="loginErr">비밀번호가 올바르지 않습니다</div>
+    <input type="password" class="login-input" id="loginInput" placeholder="Â· Â· Â· Â· Â· Â· Â· Â·">
+    <button class="login-btn" onclick="doLogin()">ìì¥íê¸°</button>
+    <div class="login-err" id="loginErr">ë¹ë°ë²í¸ê° ì¬ë°ë¥´ì§ ììµëë¤</div>
   </div>
 </div>
 
 <!-- TOPBAR -->
 <div class="topbar">
   <div class="logo-wrap">
-    <span class="logo-sym">✦</span>
+    <span class="logo-sym">â¦</span>
     <span class="logo">SOULKIT</span>
   </div>
   <div class="icon-btn" onclick="openSettings()">
@@ -155,25 +155,25 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 <div class="tabs">
   <div class="tab active" onclick="switchTab(-1)" id="t-1">
     <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    <div class="tab-label">홈</div>
+    <div class="tab-label">í</div>
   </div>
   <div class="tab" onclick="switchTab(0)" id="t0">
     <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-    <div class="tab-label">이미지 에디터</div>
+    <div class="tab-label">ì´ë¯¸ì§ ìëí°</div>
   </div>
   <div class="tab" onclick="switchTab(1)" id="t1">
     <svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-    <div class="tab-label">상품명</div>
+    <div class="tab-label">ìíëª</div>
   </div>
   <div class="tab" onclick="switchTab(2)" id="t2">
     <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-    <div class="tab-label">블로그</div>
-    <span class="tab-badge">준비중</span>
+    <div class="tab-label">ë¸ë¡ê·¸</div>
+    <span class="tab-badge">ì¤ë¹ì¤</span>
   </div>
   <div class="tab" onclick="switchTab(3)" id="t3">
     <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-    <div class="tab-label">영상</div>
-    <span class="tab-badge">준비중</span>
+    <div class="tab-label">ìì</div>
+    <span class="tab-badge">ì¤ë¹ì¤</span>
   </div>
 </div>
 
@@ -184,7 +184,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   <div class="home-screen show" id="homeScreen">
     <div class="home-greeting">
       <div class="home-date" id="homeDate"></div>
-      <div class="home-title">안녕하세요, <span>주군</span> 님 👋</div>
+      <div class="home-title">ìëíì¸ì, <span>ì£¼êµ°</span> ë ð</div>
     </div>
 
     <div class="tool-grid">
@@ -192,55 +192,55 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
         <div class="tc-icon">
           <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
         </div>
-        <div class="tc-name">이미지 에디터</div>
-        <div class="tc-desc">상품 이미지 편집 및 메인 이미지 생성</div>
+        <div class="tc-name">ì´ë¯¸ì§ ìëí°</div>
+        <div class="tc-desc">ìí ì´ë¯¸ì§ í¸ì§ ë° ë©ì¸ ì´ë¯¸ì§ ìì±</div>
       </div>
       <div class="tool-card" onclick="switchTab(1)">
         <div class="tc-icon">
           <svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
         </div>
-        <div class="tc-name">상품명 생성기</div>
-        <div class="tc-desc">네이버/쿠팡 최적화 상품명 + CPC 분석</div>
+        <div class="tc-name">ìíëª ìì±ê¸°</div>
+        <div class="tc-desc">ë¤ì´ë²/ì¿ í¡ ìµì í ìíëª + CPC ë¶ì</div>
       </div>
       <div class="tool-card disabled">
         <div class="tc-icon">
           <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
         </div>
-        <div class="tc-name">블로그 툴</div>
-        <div class="tc-desc">AI 블로그 자동 생성 및 발행</div>
-        <span class="tc-soon">준비중</span>
+        <div class="tc-name">ë¸ë¡ê·¸ í´</div>
+        <div class="tc-desc">AI ë¸ë¡ê·¸ ìë ìì± ë° ë°í</div>
+        <span class="tc-soon">ì¤ë¹ì¤</span>
       </div>
       <div class="tool-card disabled">
         <div class="tc-icon">
           <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
         </div>
-        <div class="tc-name">영상 툴</div>
-        <div class="tc-desc">AI 쇼츠/영상 자동 생성</div>
-        <span class="tc-soon">준비중</span>
+        <div class="tc-name">ìì í´</div>
+        <div class="tc-desc">AI ì¼ì¸ /ìì ìë ìì±</div>
+        <span class="tc-soon">ì¤ë¹ì¤</span>
       </div>
     </div>
 
-    <div class="section-title">업데이트 내역</div>
+    <div class="section-title">ìë°ì´í¸ ë´ì­</div>
     <div class="update-list">
       <div class="update-item">
         <div class="update-dot"></div>
         <div class="update-content">
           <div class="update-date">2026.05.30</div>
-          <div class="update-text">SoulKit 껍데기 v1 출시 — 홈 대시보드, 테마 3종, 피드백 챗봇 추가</div>
+          <div class="update-text">SoulKit ê»ë°ê¸° v1 ì¶ì â í ëìë³´ë, íë§ 3ì¢, í¼ëë°± ì±ë´ ì¶ê°</div>
         </div>
       </div>
       <div class="update-item">
         <div class="update-dot" style="background:var(--text3)"></div>
         <div class="update-content">
           <div class="update-date">2026.05.22</div>
-          <div class="update-text">이미지 에디터 v6 — Flux Kontext 메인 이미지 생성 탭 추가</div>
+          <div class="update-text">ì´ë¯¸ì§ ìëí° v6 â Flux Kontext ë©ì¸ ì´ë¯¸ì§ ìì± í­ ì¶ê°</div>
         </div>
       </div>
       <div class="update-item">
         <div class="update-dot" style="background:var(--text3)"></div>
         <div class="update-content">
           <div class="update-date">2026.05.10</div>
-          <div class="update-text">상품명 생성기 v2 — 네이버 CPC 분석 통합</div>
+          <div class="update-text">ìíëª ìì±ê¸° v2 â ë¤ì´ë² CPC ë¶ì íµí©</div>
         </div>
       </div>
     </div>
@@ -251,8 +251,8 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
     <iframe id="mainFrame" src=""></iframe>
     <div class="coming-soon" id="comingSoon">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      <div class="cs-text">준비중입니다</div>
-      <div class="cs-sub">곧 업데이트될 예정이에요</div>
+      <div class="cs-text">ì¤ë¹ì¤ìëë¤</div>
+      <div class="cs-sub">ê³§ ìë°ì´í¸ë  ìì ì´ìì</div>
     </div>
   </div>
 
@@ -263,34 +263,34 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 <div class="settings-panel" id="settingsPanel">
   <div class="set-head">
     <span class="set-title">SETTINGS</span>
-    <button class="close-btn" onclick="closeSettings()">✕</button>
+    <button class="close-btn" onclick="closeSettings()">â</button>
   </div>
   <div class="set-body">
-    <div class="set-label">테마</div>
+    <div class="set-label">íë§</div>
     <div class="theme-grid">
       <div class="theme-card selected" onclick="setTheme('dark')" id="tc-dark">
         <div class="theme-preview" style="background:#0a0a16">
           <div class="tp-bar" style="background:#06060f"><div class="tp-dot" style="background:#a78bfa"></div><div class="tp-dot" style="background:#3a3a5a"></div></div>
-          <div class="tp-body" style="color:#a78bfa;background:#050509">✦</div>
+          <div class="tp-body" style="color:#a78bfa;background:#050509">â¦</div>
         </div>
-        <div class="theme-name">다크</div>
+        <div class="theme-name">ë¤í¬</div>
       </div>
       <div class="theme-card" onclick="setTheme('light')" id="tc-light">
         <div class="theme-preview" style="background:#f8f6f0">
           <div class="tp-bar" style="background:#ffffff"><div class="tp-dot" style="background:#1a2b5e"></div><div class="tp-dot" style="background:#b0aaa0"></div></div>
-          <div class="tp-body" style="color:#1a2b5e;background:#f0ede6">✦</div>
+          <div class="tp-body" style="color:#1a2b5e;background:#f0ede6">â¦</div>
         </div>
-        <div class="theme-name">라이트</div>
+        <div class="theme-name">ë¼ì´í¸</div>
       </div>
       <div class="theme-card" onclick="setTheme('soul')" id="tc-soul">
         <div class="theme-preview" style="background:#0a0a16">
           <div class="tp-bar" style="background:#06060f"><div class="tp-dot" style="background:#f5e6c8"></div><div class="tp-dot" style="background:#3a3a5a"></div></div>
-          <div class="tp-body" style="color:#f5e6c8;background:#050509">✦</div>
+          <div class="tp-body" style="color:#f5e6c8;background:#050509">â¦</div>
         </div>
-        <div class="theme-name">소울</div>
+        <div class="theme-name">ìì¸</div>
       </div>
     </div>
-    <button class="logout-btn" onclick="doLogout()">로그아웃</button>
+    <button class="logout-btn" onclick="doLogout()">ë¡ê·¸ìì</button>
   </div>
 </div>
 
@@ -300,37 +300,37 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 </button>
 <div id="fb-panel">
   <div id="fb-head">
-    <span id="fb-title">✦ FEEDBACK</span>
-    <button id="fb-close" onclick="toggleFb()">✕</button>
+    <span id="fb-title">â¦ FEEDBACK</span>
+    <button id="fb-close" onclick="toggleFb()">â</button>
   </div>
   <div id="fb-msgs">
-    <div class="fb-msg bot">불편한 점이나 원하는 기능을 알려주세요. Claude가 직접 수정합니다 🤖</div>
+    <div class="fb-msg bot">ë¶í¸í ì ì´ë ìíë ê¸°ë¥ì ìë ¤ì£¼ì¸ì. Claudeê° ì§ì  ìì í©ëë¤ ð¤</div>
   </div>
   <div id="fb-types">
-    <button class="fbt on" onclick="setFbt('bug')" id="fbt-bug">🐛 버그/오류</button>
-    <button class="fbt" onclick="setFbt('feature')" id="fbt-feat">✨ 기능 요청</button>
+    <button class="fbt on" onclick="setFbt('bug')" id="fbt-bug">ð ë²ê·¸/ì¤ë¥</button>
+    <button class="fbt" onclick="setFbt('feature')" id="fbt-feat">â¨ ê¸°ë¥ ìì²­</button>
   </div>
   <div id="fb-inputs">
-    <textarea id="fb-input" placeholder="내용 입력... (Ctrl+Enter 전송)"></textarea>
-    <button id="fb-send" onclick="sendFb()">전송</button>
+    <textarea id="fb-input" placeholder="ë´ì© ìë ¥... (Ctrl+Enter ì ì¡)"></textarea>
+    <button id="fb-send" onclick="sendFb()">ì ì¡</button>
   </div>
 </div>
 
 <script>
 const TABS=[
   {url:'https://happybiz-image-editor.pages.dev',ready:true},
-  {url:'https://7f971d39.product-name-generator.pages.dev',ready:true},
+  {url:'https://soulkit-name-generator.pages.dev',ready:true},
   {url:'',ready:false},
   {url:'',ready:false}
 ];
 let fbType='bug';
 
-// 날짜
+// ë ì§
 function setDate(){
   const d=new Date();
-  const days=['일','월','화','수','목','금','토'];
+  const days=['ì¼','ì','í','ì','ëª©','ê¸','í '];
   document.getElementById('homeDate').textContent=
-    `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} ${days[d.getDay()]}요일`;
+    `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} ${days[d.getDay()]}ìì¼`;
 }
 
 function doLogin(){
@@ -384,12 +384,12 @@ async function sendFb(){
   try{
     const res=await fetch('https://n8n.wonflowai.com/webhook/soulkit-feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:fbType,message:txt,tool:'soulkit',url:location.href,timestamp:new Date().toISOString()})});
     const data=await res.json().catch(()=>({}));
-    const replyMsg = data.reply || (fbType==='bug'?'✅ 수정 완료! Claude가 코드를 고쳤어요. 잠시 후 반영됩니다 🚀':'📝 접수됐어요! 검토 후 업데이트에 반영할게요 ✨');
+    const replyMsg = data.reply || (fbType==='bug'?'â ìì  ìë£! Claudeê° ì½ëë¥¼ ê³ ì³¤ì´ì. ì ì í ë°ìë©ëë¤ ð':'ð ì ìëì´ì! ê²í  í ìë°ì´í¸ì ë°ìí ê²ì â¨');
 if (replyMsg.trim()) {
   addMsg(replyMsg,'bot');
 }
-  }catch(e){addMsg('전송 실패했어요. 잠시 후 다시 시도해주세요.','bot');}
-  btn.disabled=false;btn.textContent='전송';
+  }catch(e){addMsg('ì ì¡ ì¤í¨íì´ì. ì ì í ë¤ì ìëí´ì£¼ì¸ì.','bot');}
+  btn.disabled=false;btn.textContent='ì ì¡';
 }
 document.getElementById('fb-input').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.ctrlKey)sendFb();});
 </script>
