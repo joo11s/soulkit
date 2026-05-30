@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SoulKit</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body.theme-dark{--bg:#0a0a16;--bg2:#06060f;--bg3:#1a1a2e;--border:#2a2a4a;--border2:#1e1e3a;--accent:#7c3aed;--accent2:#a78bfa;--text:#e8e4ff;--text2:#6b6b9a;--text3:#3a3a5a;--tab-active:#a78bfa;--logo:#a78bfa;--chat-bg:#1e1040;--chat-border:#7c3aed;--chat-icon:#a78bfa;--iframe-bg:#050509;--btn-text:#06060f;--card:#0d0d1f;--update:#111128}
+body.theme-light{--bg:#f8f6f0;--bg2:#ffffff;--bg3:#f0ede6;--border:#e0ddd4;--border2:#e8e5dc;--accent:#1a2b5e;--accent2:#2d4a8e;--text:#1a2b5e;--text2:#6b7a9a;--text3:#b0aaa0;--tab-active:#1a2b5e;--logo:#1a2b5e;--chat-bg:#1a2b5e;--chat-border:#1a2b5e;--chat-icon:#ffffff;--iframe-bg:#f0ede6;--btn-text:#ffffff;--card:#ffffff;--update:#f5f3ee}
+body.theme-soul{--bg:#0a0a16;--bg2:#06060f;--bg3:#1a1a2e;--border:#2a2a4a;--border2:#1e1e3a;--accent:#f5e6c8;--accent2:#f0d9a8;--text:#f5e6c8;--text2:#8a7a5a;--text3:#3a3a5a;--tab-active:#f5e6c8;--logo:#f5e6c8;--chat-bg:#f5e6c8;--chat-border:#f5e6c8;--chat-icon:#0a0a16;--iframe-bg:#050509;--btn-text:#0a0a16;--card:#0d0d1f;--update:#111128}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex;flex-direction:column;transition:background .3s,color .3s}
+
+/* LOGIN */
+.login-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999}
+.login-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:48px 40px;width:320px;text-align:center}
+.login-symbol{font-size:28px;color:var(--accent2);margin-bottom:10px;display:block}
+.login-logo{font-family:'Space Mono',monospace;font-size:18px;color:var(--logo);font-weight:700;letter-spacing:4px;margin-bottom:4px}
+.login-sub{font-size:10px;color:var(--text2);margin-bottom:28px;letter-spacing:1px}
+.login-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:11px 16px;font-size:14px;outline:none;text-align:center;letter-spacing:6px;font-family:'Space Mono',monospace;margin-bottom:10px;transition:border .2s}
+.login-input:focus{border-color:var(--accent2)}
+.login-btn{width:100%;background:var(--accent);color:var(--btn-text);font-weight:700;border:none;border-radius:8px;padding:11px;font-size:13px;cursor:pointer;transition:opacity .2s}
+.login-btn:hover{opacity:.85}
+.login-err{color:#f87171;font-size:11px;margin-top:8px;display:none}
+
+/* TOPBAR */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:50px;background:var(--bg2);border-bottom:1px solid var(--border2);flex-shrink:0}
+.logo-wrap{display:flex;align-items:center;gap:8px}
+.logo-sym{font-size:16px;color:var(--accent2)}
+.logo{font-family:'Space Mono',monospace;font-size:12px;color:var(--logo);font-weight:700;letter-spacing:3px}
+.icon-btn{width:30px;height:30px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .2s}
+.icon-btn:hover{border-color:var(--accent2)}
+.icon-btn svg{width:15px;height:15px;fill:none;stroke:var(--text2);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+
+/* TABS */
+.tabs{display:flex;background:var(--bg2);border-bottom:1px solid var(--border2);flex-shrink:0}
+.tab{flex:1;padding:10px 4px;text-align:center;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;position:relative}
+.tab.active{border-bottom-color:var(--tab-active)}
+.tab svg{width:15px;height:15px;fill:none;stroke:var(--text3);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;display:block;margin:0 auto 3px;transition:stroke .2s}
+.tab.active svg{stroke:var(--tab-active)}
+.tab-label{font-size:9px;color:var(--text3);transition:color .2s}
+.tab.active .tab-label{color:var(--tab-active);font-weight:500}
+.tab-badge{position:absolute;top:4px;right:2px;background:var(--bg3);color:var(--text3);font-size:7px;padding:1px 3px;border-radius:2px;border:0.5px solid var(--border)}
+
+/* CONTENT AREA */
+.content-area{flex:1;overflow:hidden;position:relative}
+.iframe-wrap{position:absolute;inset:0;background:var(--iframe-bg)}
+.iframe-wrap iframe{width:100%;height:100%;border:none}
+.coming-soon{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.coming-soon svg{width:36px;height:36px;fill:none;stroke:var(--text3);stroke-width:1;opacity:.4}
+.cs-text{font-size:13px;color:var(--text3);opacity:.5;letter-spacing:1px}
+.cs-sub{font-size:11px;color:var(--text3);opacity:.3}
+
+/* HOME DASHBOARD */
+.home-screen{position:absolute;inset:0;overflow-y:auto;padding:20px 16px;display:none}
+.home-screen.show{display:block}
+.home-greeting{margin-bottom:20px}
+.home-date{font-size:10px;color:var(--text2);letter-spacing:1px;margin-bottom:4px;font-family:'Space Mono',monospace}
+.home-title{font-size:18px;font-weight:700;color:var(--text)}
+.home-title span{color:var(--accent2)}
+.tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.tool-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 14px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.tool-card:hover{border-color:var(--accent2);transform:translateY(-1px)}
+.tool-card.disabled{opacity:.5;cursor:default}
+.tool-card.disabled:hover{transform:none;border-color:var(--border)}
+.tc-icon{width:32px;height:32px;border-radius:8px;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.tc-icon svg{width:16px;height:16px;fill:none;stroke:var(--accent2);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.tool-card.disabled .tc-icon svg{stroke:var(--text3)}
+.tc-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:3px}
+.tool-card.disabled .tc-name{color:var(--text2)}
+.tc-desc{font-size:10px;color:var(--text2);line-height:1.5}
+.tc-soon{position:absolute;top:10px;right:10px;background:var(--bg3);color:var(--text3);font-size:8px;padding:2px 6px;border-radius:3px;border:0.5px solid var(--border)}
+.section-title{font-size:10px;color:var(--text2);letter-spacing:2px;text-transform:uppercase;font-weight:500;margin-bottom:10px}
+.update-list{display:flex;flex-direction:column;gap:6px}
+.update-item{background:var(--update);border:0.5px solid var(--border);border-radius:8px;padding:10px 12px;display:flex;align-items:flex-start;gap:10px}
+.update-dot{width:6px;height:6px;border-radius:50%;background:var(--accent2);flex-shrink:0;margin-top:4px}
+.update-content{}
+.update-date{font-size:9px;color:var(--text3);font-family:'Space Mono',monospace;margin-bottom:2px}
+.update-text{font-size:11px;color:var(--text);line-height:1.5}
+
+/* SETTINGS */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:999;display:none}
+.overlay.show{display:block}
+.settings-panel{position:fixed;top:0;right:-320px;width:280px;height:100vh;background:var(--bg2);border-left:1px solid var(--border);z-index:1000;transition:right .3s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
+.settings-panel.open{right:0}
+.set-head{padding:18px 20px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between}
+.set-title{font-size:12px;font-weight:700;color:var(--text);letter-spacing:2px;font-family:'Space Mono',monospace}
+.close-btn{background:none;border:none;color:var(--text2);cursor:pointer;font-size:16px}
+.close-btn:hover{color:var(--text)}
+.set-body{padding:20px;flex:1}
+.set-label{font-size:10px;color:var(--text2);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;font-weight:500}
+.theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
+.theme-card{border:1.5px solid var(--border);border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;transition:border-color .2s}
+.theme-card:hover,.theme-card.selected{border-color:var(--accent2)}
+.theme-preview{width:100%;height:36px;border-radius:5px;margin-bottom:6px;overflow:hidden;display:flex;flex-direction:column}
+.tp-bar{height:10px;display:flex;align-items:center;padding:0 3px;gap:2px}
+.tp-dot{width:3px;height:3px;border-radius:50%}
+.tp-body{flex:1;display:flex;align-items:center;justify-content:center;font-size:8px;font-family:'Space Mono',monospace}
+.theme-name{font-size:10px;color:var(--text2)}
+.theme-card.selected .theme-name{color:var(--accent2)}
+.logout-btn{width:100%;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--text2);padding:9px;font-size:12px;cursor:pointer;transition:all .2s}
+.logout-btn:hover{border-color:#f87171;color:#f87171}
+
+/* CHATBOT */
+#fb-fab{position:fixed;bottom:22px;right:22px;width:42px;height:42px;border-radius:50%;background:var(--chat-bg);border:1.5px solid var(--chat-border);cursor:pointer;z-index:1001;display:flex;align-items:center;justify-content:center;transition:transform .2s;box-shadow:0 4px 16px rgba(0,0,0,.3)}
+#fb-fab:hover{transform:scale(1.08)}
+#fb-fab svg{width:17px;height:17px;fill:var(--chat-icon)}
+#fb-panel{position:fixed;bottom:76px;right:22px;width:290px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;z-index:1001;display:none;flex-direction:column;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+#fb-panel.open{display:flex}
+#fb-head{background:var(--bg);padding:11px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border2)}
+#fb-title{font-size:11px;font-weight:700;color:var(--accent2);font-family:'Space Mono',monospace;letter-spacing:1px}
+#fb-close{background:none;border:none;color:var(--text2);cursor:pointer;font-size:14px}
+#fb-msgs{height:190px;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:7px}
+.fb-msg{font-size:12px;line-height:1.5;padding:7px 10px;border-radius:8px;max-width:88%}
+.fb-msg.bot{background:var(--bg3);color:var(--text);align-self:flex-start;border:0.5px solid var(--border)}
+.fb-msg.user{background:var(--accent);color:var(--btn-text);align-self:flex-end;font-weight:500}
+#fb-types{display:flex;gap:5px;padding:7px 10px;border-top:1px solid var(--border2)}
+.fbt{background:var(--bg3);border:1px solid var(--border);border-radius:4px;font-size:10px;padding:4px 8px;cursor:pointer;color:var(--text2);transition:all .2s}
+.fbt.on{border-color:var(--accent2);color:var(--accent2)}
+#fb-inputs{display:flex;gap:5px;padding:0 10px 10px}
+#fb-input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:7px 9px;font-size:12px;outline:none;resize:none;height:52px;transition:border .2s;font-family:'Noto Sans KR',sans-serif}
+#fb-input:focus{border-color:var(--accent2)}
+#fb-send{background:var(--accent);color:var(--btn-text);border:none;border-radius:6px;padding:0 11px;font-weight:700;cursor:pointer;font-size:12px;height:52px;transition:opacity .2s}
+#fb-send:hover{opacity:.85}
+#fb-send:disabled{opacity:.4}
+</style>
+</head>
+<body class="theme-dark">
+
+<!-- LOGIN -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <span class="login-symbol">✦</span>
+    <div class="login-logo">SOULKIT</div>
+    <div class="login-sub">AI SELLER TOOLKIT</div>
+    <input type="password" class="login-input" id="loginInput" placeholder="· · · · · · · ·">
+    <button class="login-btn" onclick="doLogin()">입장하기</button>
+    <div class="login-err" id="loginErr">비밀번호가 올바르지 않습니다</div>
+  </div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="logo-wrap">
+    <span class="logo-sym">✦</span>
+    <span class="logo">SOULKIT</span>
+  </div>
+  <div class="icon-btn" onclick="openSettings()">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab(-1)" id="t-1">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <div class="tab-label">홈</div>
+  </div>
+  <div class="tab" onclick="switchTab(0)" id="t0">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+    <div class="tab-label">이미지 에디터</div>
+  </div>
+  <div class="tab" onclick="switchTab(1)" id="t1">
+    <svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+    <div class="tab-label">상품명</div>
+  </div>
+  <div class="tab" onclick="switchTab(2)" id="t2">
+    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    <div class="tab-label">블로그</div>
+    <span class="tab-badge">준비중</span>
+  </div>
+  <div class="tab" onclick="switchTab(3)" id="t3">
+    <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+    <div class="tab-label">영상</div>
+    <span class="tab-badge">준비중</span>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content-area">
+
+  <!-- HOME -->
+  <div class="home-screen show" id="homeScreen">
+    <div class="home-greeting">
+      <div class="home-date" id="homeDate"></div>
+      <div class="home-title">안녕하세요, <span>주군</span> 님 👋</div>
+    </div>
+
+    <div class="tool-grid">
+      <div class="tool-card" onclick="switchTab(0)">
+        <div class="tc-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <div class="tc-name">이미지 에디터</div>
+        <div class="tc-desc">상품 이미지 편집 및 메인 이미지 생성</div>
+      </div>
+      <div class="tool-card" onclick="switchTab(1)">
+        <div class="tc-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <div class="tc-name">상품명 생성기</div>
+        <div class="tc-desc">네이버/쿠팡 최적화 상품명 + CPC 분석</div>
+      </div>
+      <div class="tool-card disabled">
+        <div class="tc-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div class="tc-name">블로그 툴</div>
+        <div class="tc-desc">AI 블로그 자동 생성 및 발행</div>
+        <span class="tc-soon">준비중</span>
+      </div>
+      <div class="tool-card disabled">
+        <div class="tc-icon">
+          <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+        </div>
+        <div class="tc-name">영상 툴</div>
+        <div class="tc-desc">AI 쇼츠/영상 자동 생성</div>
+        <span class="tc-soon">준비중</span>
+      </div>
+    </div>
+
+    <div class="section-title">업데이트 내역</div>
+    <div class="update-list">
+      <div class="update-item">
+        <div class="update-dot"></div>
+        <div class="update-content">
+          <div class="update-date">2026.05.30</div>
+          <div class="update-text">SoulKit 껍데기 v1 출시 — 홈 대시보드, 테마 3종, 피드백 챗봇 추가</div>
+        </div>
+      </div>
+      <div class="update-item">
+        <div class="update-dot" style="background:var(--text3)"></div>
+        <div class="update-content">
+          <div class="update-date">2026.05.22</div>
+          <div class="update-text">이미지 에디터 v6 — Flux Kontext 메인 이미지 생성 탭 추가</div>
+        </div>
+      </div>
+      <div class="update-item">
+        <div class="update-dot" style="background:var(--text3)"></div>
+        <div class="update-content">
+          <div class="update-date">2026.05.10</div>
+          <div class="update-text">상품명 생성기 v2 — 네이버 CPC 분석 통합</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IFRAME -->
+  <div class="iframe-wrap" id="iframeWrap" style="display:none">
+    <iframe id="mainFrame" src=""></iframe>
+    <div class="coming-soon" id="comingSoon">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <div class="cs-text">준비중입니다</div>
+      <div class="cs-sub">곧 업데이트될 예정이에요</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- SETTINGS -->
+<div class="overlay" id="overlay" onclick="closeSettings()"></div>
+<div class="settings-panel" id="settingsPanel">
+  <div class="set-head">
+    <span class="set-title">SETTINGS</span>
+    <button class="close-btn" onclick="closeSettings()">✕</button>
+  </div>
+  <div class="set-body">
+    <div class="set-label">테마</div>
+    <div class="theme-grid">
+      <div class="theme-card selected" onclick="setTheme('dark')" id="tc-dark">
+        <div class="theme-preview" style="background:#0a0a16">
+          <div class="tp-bar" style="background:#06060f"><div class="tp-dot" style="background:#a78bfa"></div><div class="tp-dot" style="background:#3a3a5a"></div></div>
+          <div class="tp-body" style="color:#a78bfa;background:#050509">✦</div>
+        </div>
+        <div class="theme-name">다크</div>
+      </div>
+      <div class="theme-card" onclick="setTheme('light')" id="tc-light">
+        <div class="theme-preview" style="background:#f8f6f0">
+          <div class="tp-bar" style="background:#ffffff"><div class="tp-dot" style="background:#1a2b5e"></div><div class="tp-dot" style="background:#b0aaa0"></div></div>
+          <div class="tp-body" style="color:#1a2b5e;background:#f0ede6">✦</div>
+        </div>
+        <div class="theme-name">라이트</div>
+      </div>
+      <div class="theme-card" onclick="setTheme('soul')" id="tc-soul">
+        <div class="theme-preview" style="background:#0a0a16">
+          <div class="tp-bar" style="background:#06060f"><div class="tp-dot" style="background:#f5e6c8"></div><div class="tp-dot" style="background:#3a3a5a"></div></div>
+          <div class="tp-body" style="color:#f5e6c8;background:#050509">✦</div>
+        </div>
+        <div class="theme-name">소울</div>
+      </div>
+    </div>
+    <button class="logout-btn" onclick="doLogout()">로그아웃</button>
+  </div>
+</div>
+
+<!-- CHATBOT -->
+<button id="fb-fab" onclick="toggleFb()">
+  <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+</button>
+<div id="fb-panel">
+  <div id="fb-head">
+    <span id="fb-title">✦ FEEDBACK</span>
+    <button id="fb-close" onclick="toggleFb()">✕</button>
+  </div>
+  <div id="fb-msgs">
+    <div class="fb-msg bot">불편한 점이나 원하는 기능을 알려주세요. Claude가 직접 수정합니다 🤖</div>
+  </div>
+  <div id="fb-types">
+    <button class="fbt on" onclick="setFbt('bug')" id="fbt-bug">🐛 버그/오류</button>
+    <button class="fbt" onclick="setFbt('feature')" id="fbt-feat">✨ 기능 요청</button>
+  </div>
+  <div id="fb-inputs">
+    <textarea id="fb-input" placeholder="내용 입력... (Ctrl+Enter 전송)"></textarea>
+    <button id="fb-send" onclick="sendFb()">전송</button>
+  </div>
+</div>
+
+<script>
+const TABS=[
+  {url:'https://happybiz-image-editor.pages.dev',ready:true},
+  {url:'https://7f971d39.product-name-generator.pages.dev',ready:true},
+  {url:'',ready:false},
+  {url:'',ready:false}
+];
+let fbType='bug';
+
+// 날짜
+function setDate(){
+  const d=new Date();
+  const days=['일','월','화','수','목','금','토'];
+  document.getElementById('homeDate').textContent=
+    `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} ${days[d.getDay()]}요일`;
+}
+
+function doLogin(){
+  if(document.getElementById('loginInput').value==='thdnf*1111'){
+    document.getElementById('loginScreen').style.display='none';
+    loadTheme();setDate();
+  } else {
+    document.getElementById('loginErr').style.display='block';
+    document.getElementById('loginInput').value='';
+  }
+}
+document.getElementById('loginInput').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+function doLogout(){document.getElementById('loginScreen').style.display='flex';closeSettings();}
+
+function switchTab(i){
+  document.querySelectorAll('.tab').forEach((t,idx)=>t.classList.toggle('active',idx===(i+1)));
+  const home=document.getElementById('homeScreen');
+  const wrap=document.getElementById('iframeWrap');
+  if(i===-1){
+    home.classList.add('show');
+    wrap.style.display='none';
+    return;
+  }
+  home.classList.remove('show');
+  wrap.style.display='block';
+  const fr=document.getElementById('mainFrame');
+  const cs=document.getElementById('comingSoon');
+  if(TABS[i].ready){fr.style.display='block';cs.style.display='none';if(fr.src!==TABS[i].url)fr.src=TABS[i].url;}
+  else{fr.style.display='none';cs.style.display='flex';}
+}
+
+function setTheme(t){
+  document.body.className='theme-'+t;
+  localStorage.setItem('sk_theme',t);
+  document.querySelectorAll('.theme-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('tc-'+t).classList.add('selected');
+}
+function loadTheme(){setTheme(localStorage.getItem('sk_theme')||'dark');}
+
+function openSettings(){document.getElementById('settingsPanel').classList.add('open');document.getElementById('overlay').classList.add('show');}
+function closeSettings(){document.getElementById('settingsPanel').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
+
+function toggleFb(){document.getElementById('fb-panel').classList.toggle('open');}
+function setFbt(t){fbType=t;document.getElementById('fbt-bug').classList.toggle('on',t==='bug');document.getElementById('fbt-feat').classList.toggle('on',t==='feature');}
+function addMsg(txt,who){const el=document.createElement('div');el.className='fb-msg '+who;el.textContent=txt;const m=document.getElementById('fb-msgs');m.appendChild(el);m.scrollTop=m.scrollHeight;}
+async function sendFb(){
+  const input=document.getElementById('fb-input');
+  const txt=input.value.trim();if(!txt)return;
+  addMsg(txt,'user');input.value='';
+  const btn=document.getElementById('fb-send');btn.disabled=true;btn.textContent='...';
+  try{
+    await fetch('https://n8n.wonflowai.com/webhook/soulkit-feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:fbType,message:txt,tool:'soulkit',url:location.href,timestamp:new Date().toISOString()})});
+    addMsg(fbType==='bug'?'접수됐어요! Claude가 확인 후 즉시 수정할게요 🔧':'감사해요! 검토 후 업데이트에 반영할게요 ✨','bot');
+  }catch(e){addMsg('전송 실패했어요. 잠시 후 다시 시도해주세요.','bot');}
+  btn.disabled=false;btn.textContent='전송';
+}
+document.getElementById('fb-input').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.ctrlKey)sendFb();});
+</script>
+</body>
+</html>
