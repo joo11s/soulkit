@@ -384,7 +384,10 @@ async function sendFb(){
   try{
     const res=await fetch('https://n8n.wonflowai.com/webhook/soulkit-feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:fbType,message:txt,tool:'soulkit',url:location.href,timestamp:new Date().toISOString()})});
     const data=await res.json().catch(()=>({}));
-    addMsg(data.reply||(fbType==='bug'?'✅ 수정 완료! Claude가 코드를 고쳤어요. 잠시 후 반영됩니다 🚀':'📝 접수됐어요! 검토 후 업데이트에 반영할게요 ✨'),'bot');
+    const replyMsg = data.reply || (fbType==='bug'?'✅ 수정 완료! Claude가 코드를 고쳤어요. 잠시 후 반영됩니다 🚀':'📝 접수됐어요! 검토 후 업데이트에 반영할게요 ✨');
+if (replyMsg.trim()) {
+  addMsg(replyMsg,'bot');
+}
   }catch(e){addMsg('전송 실패했어요. 잠시 후 다시 시도해주세요.','bot');}
   btn.disabled=false;btn.textContent='전송';
 }
