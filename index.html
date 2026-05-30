@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>채봐 샘섰진횄프랫텼니</title>
+    <title>챗봇 상담 플랫폼</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -128,14 +128,14 @@
 <body>
     <div class="chat-container">
         <div class="chat-header">
-            <h1>진만� 도우미</h1>
+            <h1>진료 도우미</h1>
         </div>
         <div class="chat-body" id="chatBody">
-            <div class="message bot-message">안녑하세요! ���웤렸졼을 도생드리긴?</div>
+            <div class="message bot-message">안녕하세요! 무엇을 도와드릴까요?</div>
         </div>
         <div class="chat-input-container">
-            <input type="text" id="messageInput" placeholder="여다에 메싘지를 입력해로..." autocomplete="off">
-            <button id="sendButton"�✶</button>
+            <input type="text" id="messageInput" placeholder="여기에 메시지를 입력해주세요..." autocomplete="off">
+            <button id="sendButton">→</button>
         </div>
     </div>
     <script>
@@ -144,11 +144,11 @@
         const sendButton = document.getElementById('sendButton');
 
         const botResponses = [
-            '안녑하세요! ���의 도생둜리긴?',
-            '그람요욐젱익가요왔 별쓤����',
-            '헜이 같자이에 움본푉/암도산의 리동읍 몏설글요입니다.',
-            '객서개이 은원츰 㳡줨㋴ 갓자은 겘이 잜벤무태㊤.',
-            '연앭을 도와드리니!'
+            '안녕하세요! 무엇을 도와드릴까요?',
+            '그런 증상이 있으시군요. 더 자세히 말씀해 주세요.',
+            '이런 경우에는 전문의와 상담을 받아보시는 것을 권합니다.',
+            '건강 관련 문제는 신중하게 접근하는 것이 중요합니다.',
+            '추가로 도와드릴 일이 있으면 언제든 말씀해 주세요!'
         ];
 
         function addMessage(message, isUser) {
@@ -182,7 +182,7 @@
                 hideTypingIndicator();
                 const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)];
                 addMessage(randomResponse, false);
-            }, 1500); // 1.5킴 잤리 �p저을 웄에
+            }, 1500);
         }
 
         function sendMessage() {
