@@ -579,6 +579,7 @@ async function sendFb(){
   btn.disabled=false;btn.textContent='전송';
 }
 document.getElementById('fb-input').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.ctrlKey)sendFb();});
+document.getElementById('fb-send').addEventListener('click',sendFb);
 </script>
 </body>
 </html>
