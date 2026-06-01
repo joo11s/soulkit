@@ -441,12 +441,14 @@ body.theme-soul{--abg:#0a0a16;--abg2:#06060f;--abg3:#1a1a2e;--aborder:#2a2a4a;--
 
 <script>
 const TABS=[
-  {url:'https://soulkit-editor.pages.dev',ready:true},
-  {url:'https://soulkit-name-generator.pages.dev',ready:true},
-  {url:'',ready:false},
-  {url:'',ready:false}
+  {url:'https://soulkit-editor.pages.dev',ready:true,repo:'joo11s/soulkit-editor'},
+  {url:'https://soulkit-name-generator.pages.dev',ready:true,repo:'joo11s/soulkit-name-generator'},
+  {url:'',ready:false,repo:'joo11s/soulkit'},
+  {url:'',ready:false,repo:'joo11s/soulkit'}
 ];
 let fbType='bug';
+let currentTabIdx=-1;
+function getActiveRepo(){return currentTabIdx===-1?'joo11s/soulkit':(TABS[currentTabIdx]&&TABS[currentTabIdx].repo||'joo11s/soulkit');}
 
 // ── CURSOR
 const cur=document.getElementById('cur');
