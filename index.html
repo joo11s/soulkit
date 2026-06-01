@@ -563,6 +563,7 @@ function loadTheme(){setTheme(localStorage.getItem('sk_theme')||'dark');}
 function openSettings(){document.getElementById('settingsPanel').classList.add('open');document.getElementById('overlay').classList.add('show');}
 function closeSettings(){document.getElementById('settingsPanel').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
 function toggleFb(){document.getElementById('fb-panel').classList.toggle('open');}
+document.getElementById('chatbot-btn')?.addEventListener('click',toggleFb);
 function setFbt(t){fbType=t;document.getElementById('fbt-bug').classList.toggle('on',t==='bug');document.getElementById('fbt-feat').classList.toggle('on',t==='feature');}
 function addMsg(txt,who){const el=document.createElement('div');el.className='fb-msg '+who;el.textContent=txt;const m=document.getElementById('fb-msgs');m.appendChild(el);m.scrollTop=m.scrollHeight;}
 async function sendFb(){
