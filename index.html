@@ -311,7 +311,7 @@ body.theme-soul{--abg:#0a0a16;--abg2:#06060f;--abg3:#1a1a2e;--aborder:#2a2a4a;--
       </div>
       <div class="ocard"><div class="ocard-tag">01 — 이미지 에디터</div><div class="ocard-title">PRODUCT<br>VISUAL AI</div><div class="ocard-desc">배경 제거 · 텍스트 제거<br>Flux Kontext · 12 프리셋</div><div class="ocard-line"></div></div>
       <div class="ocard"><div class="ocard-tag">02 — 상품명 생성기</div><div class="ocard-title">KEYWORD<br>ENGINE</div><div class="ocard-desc">네이버 CPC 분석<br>Claude 시맨틱 필터링</div><div class="ocard-line"></div></div>
-      <div class="ocard"><div class="ocard-tag">03 — AI 코드 에이전트</div><div class="ocard-title">PDCA<br>WORKFLOW</div><div class="ocard-desc">자동 기획·개발·테스트<br>배포까지 원클릭 자동화</div><div class="ocard-line"></div></div>
+      <div class="ocard"><div class="ocard-tag">03 — AI 코드 에이전트</div><div class="ocard-title">7-AGENT<br>PDCA</div><div class="ocard-desc">기획→전략→코딩→리뷰→테스트→검증→모니터링 자동화</div><div class="ocard-line"></div></div>
       <div class="ocard"><div class="ocard-tag">04 — 블로그 & 영상</div><div class="ocard-title">CONTENT<br>ENGINE</div><div class="ocard-desc">SEO 블로그 자동 생성<br>숏츠 · 릴스 AI 편집</div><div class="ocard-line"></div></div>
     </div>
     <div class="hero-typo">
@@ -327,6 +327,8 @@ body.theme-soul{--abg:#0a0a16;--abg2:#06060f;--abg3:#1a1a2e;--aborder:#2a2a4a;--
         <span class="marquee-item">CPC 키워드 분석 <span class="mx">✦</span></span>
         <span class="marquee-item">스마트스토어 최적화 <span class="mx">✦</span></span>
         <span class="marquee-item">7-AGENT PDCA 워크플로 <span class="mx">✦</span></span>
+        <span class="marquee-item">PLAN → STRATEGY → CODE <span class="mx">✦</span></span>
+        <span class="marquee-item">REVIEW → TEST → VALIDATE → MONITOR <span class="mx">✦</span></span>
         <span class="marquee-item">이미지 에디터 <span class="mx">✦</span></span>
         <span class="marquee-item">AI 상품명 생성기 <span class="mx">✦</span></span>
         <span class="marquee-item">블로그 자동화 <span class="mx">✦</span></span>
@@ -334,6 +336,8 @@ body.theme-soul{--abg:#0a0a16;--abg2:#06060f;--abg3:#1a1a2e;--aborder:#2a2a4a;--
         <span class="marquee-item">CPC 키워드 분석 <span class="mx">✦</span></span>
         <span class="marquee-item">스마트스토어 최적화 <span class="mx">✦</span></span>
         <span class="marquee-item">7-AGENT PDCA 워크플로 <span class="mx">✦</span></span>
+        <span class="marquee-item">PLAN → STRATEGY → CODE <span class="mx">✦</span></span>
+        <span class="marquee-item">REVIEW → TEST → VALIDATE → MONITOR <span class="mx">✦</span></span>
       </div>
     </div>
   </section>
@@ -409,7 +413,7 @@ body.theme-soul{--abg:#0a0a16;--abg2:#06060f;--abg3:#1a1a2e;--aborder:#2a2a4a;--
       </div>
       <div class="section-title">업데이트 내역</div>
       <div class="update-list">
-        <div class="update-item"><div class="update-dot"></div><div><div class="update-date">2026.05.31</div><div class="update-text">7-Agent PDCA 시스템 구축 — plan/strategy/code/review/test/validate/monitor 에이전트 추가</div></div></div>
+        <div class="update-item"><div class="update-dot"></div><div><div class="update-date">2026.05.31</div><div class="update-text">7-Agent PDCA 시스템 구축 완료 — plan→strategy→code→review→test→validate→monitor 자동화 워크플로 추가 (NEW_FEATURE 타입 지원)</div></div></div>
         <div class="update-item"><div class="update-dot" style="background:var(--atext3)"></div><div><div class="update-date">2026.05.30</div><div class="update-text">SoulKit 랜딩 v2 — 소울스톤 공전 궤도, 별빛 배경 추가</div></div></div>
         <div class="update-item"><div class="update-dot" style="background:var(--atext3)"></div><div><div class="update-date">2026.05.22</div><div class="update-text">이미지 에디터 v6 — Flux Kontext 메인 이미지 생성 탭 추가</div></div></div>
       </div>
@@ -568,7 +572,11 @@ function openSettings(){document.getElementById('settingsPanel').classList.add('
 function closeSettings(){document.getElementById('settingsPanel').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
 function toggleFb(){document.getElementById('fb-panel').classList.toggle('open');}
 document.getElementById('chatbot-btn')?.addEventListener('click',toggleFb);
-function setFbt(t){fbType=t;document.getElementById('fbt-bug').classList.toggle('on',t==='bug');document.getElementById('fbt-feat').classList.toggle('on',t==='feature');}
+function setFbt(t){
+  fbType=t;
+  document.getElementById('fbt-bug').classList.toggle('on',t==='bug');
+  document.getElementById('fbt-feat').classList.toggle('on',t==='feature');
+}
 function addMsg(txt,who){const el=document.createElement('div');el.className='fb-msg '+who;el.textContent=txt;const m=document.getElementById('fb-msgs');m.appendChild(el);m.scrollTop=m.scrollHeight;}
 async function sendFb(){
   const input=document.getElementById('fb-input');const txt=input.value.trim();if(!txt)return;
@@ -577,7 +585,7 @@ async function sendFb(){
   try{
     const res=await fetch('https://n8n.wonflowai.com/webhook/soulkit-feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:fbType,message:txt,tool:'soulkit',repo:getActiveRepo(),url:location.href,timestamp:new Date().toISOString()})});
     const data=await res.json().catch(()=>({}));
-    const replyMsg=data.reply||(fbType==='bug'?'✅ 수정 완료! Claude가 코드를 고쳤어요. 잠시 후 반영됩니다 🚀':'📝 접수됐어요! 검토 후 업데이트에 반영할게요 ✨');
+    const replyMsg=data.reply||(fbType==='bug'?'✅ 수정 완료! 7-Agent PDCA 시스템이 자동으로 처리했어요. 잠시 후 반영됩니다 🚀':'📝 접수됐어요! plan-agent가 검토 후 자동 개발 시작합니다 ✨');
     if(replyMsg.trim())addMsg(replyMsg,'bot');
   }catch(e){addMsg('전송 실패했어요. 잠시 후 다시 시도해주세요.','bot');}
   btn.disabled=false;btn.textContent='전송';
