@@ -7,15 +7,17 @@
 
 입력 JSON 구조:
 {
-  "common": {
-    "product_name", "consumer_price", "price", "supply_price",
-    "stock", "display", "sale_status", "category_no", "tax_type",
-    "options": [{"name": str, "values": [...]}]
+  "product": {
+    "name", "consumerPrice", "salePrice", "supplyPrice",
+    "stock", "displayStatus", "saleStatus", "categoryNo", "taxType"
   },
-  "businesses": {
-    "소울스토어": { "product_name", "images": {main, spec, detail, notice, extra}, "maker_info": {...} },
-    "제이원투몰":  { ... },
-    "행복산업":    { ... }
+  "stores": {
+    "soul":  { "productName", ... },
+    "j1":    { "productName", ... },
+    "happy": { "productName", ... }
+  },
+  "commonImages": {
+    "detail": ["url1", "url2", ...]
   }
 }
 
@@ -51,43 +53,50 @@ WORKFLOW_ID = "Zn37i8WAmwonoMBX"
 PARSE_REF = "$('상품등록 데이터 파싱').first().json"
 
 PARSE_CODE = """const body = $input.first().json.body || $input.first().json;
-const common = body.common || {};
-const businesses = body.businesses || {};
+const product = body.product || {};
+const stores = body.stores || {};
+const commonImages = body.commonImages || {};
+
+// description: commonImages.detail 배열 → img 태그 조합
+const detailImgs = (commonImages.detail || []).map(url => `<img src='${url}' style='width:100%'>`).join('');
+
+// 공통 필드
+const price          = product.salePrice     || 0;
+const supply_price   = product.supplyPrice   || 0;
+const consumer_price = product.consumerPrice || 0;
+const display        = product.displayStatus || 'T';
+const selling        = product.saleStatus    || 'T';
+const category_no    = parseInt(product.categoryNo, 10) || 1;
+const tax_calculation = product.taxType || 'A';
+
 const domainMap = {
-  '소울스토어': 'soulstore3.cafe24api.com',
-  '제이원투몰': 'jonetravel.cafe24api.com',
-  '행복산업':   'godqhrtksdjq.cafe24api.com'
+  soul:  'soulstore3.cafe24api.com',
+  j12:   'jonetravel.cafe24api.com',
+  happy: 'godqhrtksdjq.cafe24api.com'
 };
-const keyMap = { '소울스토어': 'soul', '제이원투몰': 'j12', '행복산업': 'happy' };
+// stores 키는 soul, j1, happy (j1 → j12 매핑)
+const storeKeyMap = { soul: 'soul', j12: 'j1', happy: 'happy' };
+
 const result = {};
-for (const [bizName, domain] of Object.entries(domainMap)) {
-  const k = keyMap[bizName];
-  const bizData = businesses[bizName] || {};
-  const images = bizData.images || {};
-  const taxType = bizData.tax_type || common.tax_type || 'A';
-  const tax_calculation = taxType === 'B' ? 'B' : 'A';
+for (const [k, domain] of Object.entries(domainMap)) {
+  const storeKey = storeKeyMap[k];
+  const storeData = stores[storeKey] || {};
   result[k] = {
     domain,
-    product_name:    bizData.product_name || common.product_name || '',
-    consumer_price:  common.consumer_price || 0,
-    price:           common.price          || 0,
-    supply_price:    common.supply_price   || 0,
-    display:         common.display        || 'T',
-    selling:         common.sale_status    || 'T',
-    category_no:     parseInt(common.category_no, 10) || 1,
+    product_name:    storeData.productName || product.name || '',
+    consumer_price,
+    price,
+    supply_price,
+    display,
+    selling,
+    category_no,
     tax_calculation,
-    description: [
-      "<img src='" + (images.detail || '') + "' style='width:100%'>",
-      "<img src='" + (images.notice || '') + "' style='width:100%'>",
-      "<img src='" + (images.extra  || '') + "' style='width:100%'>"
-    ].join(''),
-    main_image:  images.main  || '',
-    has_options: !!(common.options && common.options.length > 0),
-    options:     common.options || []
+    description:     detailImgs
   };
 }
+
 return [{ json: {
-  product_name: common.product_name || '',
+  product_name: (stores.soul || {}).productName || product.name || '',
   soul:  result.soul,
   j12:   result.j12,
   happy: result.happy
