@@ -58,7 +58,7 @@ const domainMap = {
   '제이원투몰': 'jonetravel.cafe24api.com',
   '행복산업':   'godqhrtksdjq.cafe24api.com'
 };
-const keyMap = { '소울스토어': 'soul', '제이원투몰': 'j1', '행복산업': 'happy' };
+const keyMap = { '소울스토어': 'soul', '제이원투몰': 'j12', '행복산업': 'happy' };
 const result = {};
 for (const [bizName, domain] of Object.entries(domainMap)) {
   const k = keyMap[bizName];
@@ -74,7 +74,7 @@ for (const [bizName, domain] of Object.entries(domainMap)) {
     supply_price:    common.supply_price   || 0,
     display:         common.display        || 'T',
     selling:         common.sale_status    || 'T',
-    category_no:     parseInt(common.category_no) || 1,
+    category_no:     parseInt(common.category_no, 10) || 1,
     tax_calculation,
     description: [
       "<img src='" + (images.detail || '') + "' style='width:100%'>",
@@ -89,7 +89,7 @@ for (const [bizName, domain] of Object.entries(domainMap)) {
 return [{ json: {
   product_name: common.product_name || '',
   soul:  result.soul,
-  j1:    result.j1,
+  j12:   result.j12,
   happy: result.happy
 } }];"""
 
@@ -160,7 +160,7 @@ def build_nodes():
     # 3–14. Business nodes (3 × 4)
     businesses = [
         ("소울스토어", "soul",  "soulstore3.cafe24api.com",    "KwRayi0rosYb4MS2", Y_SOUL),
-        ("제이원투몰",  "j1",    "jonetravel.cafe24api.com",   "cpi6r9rl1fxGXkBU", Y_J12),
+        ("제이원투몰",  "j12",   "jonetravel.cafe24api.com",   "cpi6r9rl1fxGXkBU", Y_J12),
         ("행복산업",   "happy", "godqhrtksdjq.cafe24api.com", "2UYNWcHSyUG2xfPi", Y_HAPPY),
     ]
 
