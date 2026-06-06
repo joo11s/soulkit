@@ -52,54 +52,43 @@ N8N_BASE = "https://n8n.wonflowai.com/api/v1"
 WORKFLOW_ID = "Zn37i8WAmwonoMBX"
 PARSE_REF = "$('상품등록 데이터 파싱').first().json"
 
-PARSE_CODE = """const body = $input.first().json.body || $input.first().json;
+PARSE_CODE = """const raw = $input.first().json;
+// n8n webhook v2: body가 배열로 래핑될 수 있음 (프록시 경유 시)
+let body;
+if (Array.isArray(raw.body)) {
+  body = raw.body[0].body;
+} else {
+  body = raw.body || raw;
+}
+
 const product = body.product || {};
 const stores = body.stores || {};
 const commonImages = body.commonImages || {};
 
-// description: commonImages.detail 배열 → img 태그 조합
-const detailImgs = (commonImages.detail || []).map(url => `<img src='${url}' style='width:100%'>`).join('');
+const descHtml = (commonImages.detail || []).map(url => `<img src='${url}' style='width:100%'>`).join('');
 
-// 공통 필드
-const price          = product.salePrice     || 0;
-const supply_price   = product.supplyPrice   || 0;
-const consumer_price = product.consumerPrice || 0;
-const display        = product.displayStatus || 'T';
-const selling        = product.saleStatus    || 'T';
-const category_no    = parseInt(product.categoryNo, 10) || 1;
-const tax_calculation = product.taxType || 'A';
-
-const domainMap = {
-  soul:  'soulstore3.cafe24api.com',
-  j12:   'jonetravel.cafe24api.com',
-  happy: 'godqhrtksdjq.cafe24api.com'
-};
-// stores 키는 soul, j1, happy (j1 → j12 매핑)
-const storeKeyMap = { soul: 'soul', j12: 'j1', happy: 'happy' };
-
-const result = {};
-for (const [k, domain] of Object.entries(domainMap)) {
-  const storeKey = storeKeyMap[k];
-  const storeData = stores[storeKey] || {};
-  result[k] = {
-    domain,
-    product_name:    storeData.productName || product.name || '',
-    consumer_price,
-    price,
-    supply_price,
-    display,
-    selling,
-    category_no,
-    tax_calculation,
-    description:     detailImgs
+const makeStore = (storeKey) => {
+  const s = stores[storeKey] || {};
+  return {
+    product_name:    s.productName || product.name || '',
+    price:           Number(product.salePrice) || 0,
+    supply_price:    Number(product.supplyPrice) || 0,
+    consumer_price:  Number(product.consumerPrice) || 0,
+    display:         product.displayStatus || 'T',
+    selling:         product.saleStatus || 'T',
+    category_no:     parseInt(product.categoryNo) || 53,
+    tax_calculation: product.taxType || 'A',
+    description:     descHtml,
+    summary_description: s.productName || product.name || '',
+    main_image: (s.images && s.images.main && s.images.main[0]) || ''
   };
-}
+};
 
 return [{ json: {
   product_name: (stores.soul || {}).productName || product.name || '',
-  soul:  result.soul,
-  j12:   result.j12,
-  happy: result.happy
+  soul:  makeStore('soul'),
+  j12:   makeStore('j1'),
+  happy: makeStore('happy')
 } }];"""
 
 COLLECT_CODE = """const items = $input.all();
