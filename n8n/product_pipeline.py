@@ -58,21 +58,24 @@ const domainMap = {
   '제이원투몰': 'jonetravel.cafe24api.com',
   '행복산업':   'godqhrtksdjq.cafe24api.com'
 };
-const keyMap = { '소울스토어': 'soul', '제이원투몰': 'j12', '행복산업': 'happy' };
+const keyMap = { '소울스토어': 'soul', '제이원투몰': 'j1', '행복산업': 'happy' };
 const result = {};
 for (const [bizName, domain] of Object.entries(domainMap)) {
   const k = keyMap[bizName];
   const bizData = businesses[bizName] || {};
   const images = bizData.images || {};
+  const taxType = bizData.tax_type || common.tax_type || 'A';
+  const tax_calculation = taxType === 'B' ? 'B' : 'A';
   result[k] = {
     domain,
-    product_name:   bizData.product_name || common.product_name || '',
-    consumer_price: common.consumer_price || 0,
-    price:          common.price          || 0,
-    supply_price:   common.supply_price   || 0,
-    display:        common.display        || 'T',
-    selling:        common.sale_status    || 'T',
-    category_no:    common.category_no    || 1,
+    product_name:    bizData.product_name || common.product_name || '',
+    consumer_price:  common.consumer_price || 0,
+    price:           common.price          || 0,
+    supply_price:    common.supply_price   || 0,
+    display:         common.display        || 'T',
+    selling:         common.sale_status    || 'T',
+    category_no:     parseInt(common.category_no) || 1,
+    tax_calculation,
     description: [
       "<img src='" + (images.detail || '') + "' style='width:100%'>",
       "<img src='" + (images.notice || '') + "' style='width:100%'>",
@@ -86,7 +89,7 @@ for (const [bizName, domain] of Object.entries(domainMap)) {
 return [{ json: {
   product_name: common.product_name || '',
   soul:  result.soul,
-  j12:   result.j12,
+  j1:    result.j1,
   happy: result.happy
 } }];"""
 
@@ -157,7 +160,7 @@ def build_nodes():
     # 3–14. Business nodes (3 × 4)
     businesses = [
         ("소울스토어", "soul",  "soulstore3.cafe24api.com",    "KwRayi0rosYb4MS2", Y_SOUL),
-        ("제이원투몰",  "j12",   "jonetravel.cafe24api.com",   "cpi6r9rl1fxGXkBU", Y_J12),
+        ("제이원투몰",  "j1",    "jonetravel.cafe24api.com",   "cpi6r9rl1fxGXkBU", Y_J12),
         ("행복산업",   "happy", "godqhrtksdjq.cafe24api.com", "2UYNWcHSyUG2xfPi", Y_HAPPY),
     ]
 
@@ -170,18 +173,19 @@ def build_nodes():
         nodes.append({
             "parameters": {
                 "authentication": "genericCredentialType", "genericAuthType": "oAuth2Api",
-                "method": "POST", "url": "https://" + domain + "/api/v2/products",
+                "method": "POST", "url": "https://" + domain + "/api/v2/admin/products",
                 **headers_param(), "sendBody": True, "specifyBody": "json",
                 "jsonBody": cafe24_body({
                     "shop_no": "1",
-                    "product_name":   pr + ".product_name",
-                    "price":          pr + ".price",
-                    "supply_price":   pr + ".supply_price",
-                    "consumer_price": pr + ".consumer_price",
-                    "display":        pr + ".display",
-                    "selling":        pr + ".selling",
-                    "category_no":    pr + ".category_no",
-                    "description":    pr + ".description",
+                    "product_name":    pr + ".product_name",
+                    "price":           pr + ".price",
+                    "supply_price":    pr + ".supply_price",
+                    "consumer_price":  pr + ".consumer_price",
+                    "display":         pr + ".display",
+                    "selling":         pr + ".selling",
+                    "category":        '[{"category_no":' + pr + ".category_no}]",
+                    "description":     pr + ".description",
+                    "tax_calculation": pr + ".tax_calculation",
                 }),
                 "options": {}
             },
