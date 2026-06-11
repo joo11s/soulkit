@@ -12,9 +12,9 @@
     "stock", "displayStatus", "saleStatus", "categoryNo", "taxType"
   },
   "stores": {
-    "soul":  { "productName", ... },
-    "j1":    { "productName", ... },
-    "happy": { "productName", ... }
+    "soul":  { "productName", "images": {"main": ["url"]}, "options": [...] },
+    "j12":   { "productName", "images": {"main": ["url"]}, "options": [...] },
+    "happy": { "productName", "images": {"main": ["url"]}, "options": [...] }
   },
   "commonImages": {
     "detail": ["url1", "url2", ...]
@@ -80,21 +80,25 @@ const makeStore = (storeKey) => {
     tax_calculation: product.taxType || 'A',
     description:     descHtml,
     summary_description: s.productName || product.name || '',
-    main_image: (s.images && s.images.main && s.images.main[0]) || ''
+    main_image: (s.images && s.images.main && s.images.main[0]) || '',
+    has_options: !!(s.options && s.options.length),
+    options: s.options || []
   };
 };
 
 return [{ json: {
   product_name: (stores.soul || {}).productName || product.name || '',
   soul:  makeStore('soul'),
-  j12:   makeStore('j1'),
+  j12:   makeStore('j12'),
   happy: makeStore('happy')
 } }];"""
 
 COLLECT_CODE = """const items = $input.all();
 const byBiz = {};
 for (const item of items) {
-  byBiz[item.json.business] = item.json.product_no;
+  if (item.json.business) {
+    byBiz[item.json.business] = item.json.product_no || null;
+  }
 }
 const soulNo  = String(byBiz['소울스토어'] || '');
 const j12No   = String(byBiz['제이원투몰']  || '');
@@ -171,7 +175,7 @@ def build_nodes():
         nodes.append({
             "parameters": {
                 "authentication": "genericCredentialType", "genericAuthType": "oAuth2Api",
-                "method": "POST", "url": "https://" + domain + "/api/v2/admin/products",
+                "method": "POST", "url": "https://" + domain + "/api/v2/products",
                 **headers_param(), "sendBody": True, "specifyBody": "json",
                 "jsonBody": cafe24_body({
                     "shop_no": "1",
@@ -371,8 +375,29 @@ def main():
     new_nodes = build_nodes()
     new_conns = build_connections()
 
-    wf["nodes"] = wf.get("nodes", []) + new_nodes
-    wf["connections"] = {**wf.get("connections", {}), **new_conns}
+    # Remove existing prod-* nodes and their connections before adding new ones
+    prod_ids = {
+        "prod-webhook", "prod-parse",
+        "soul-reg", "soul-img", "soul-opt", "soul-set",
+        "j12-reg",  "j12-img",  "j12-opt",  "j12-set",
+        "happy-reg","happy-img","happy-opt","happy-set",
+        "prod-merge", "prod-collect", "prod-sheets", "prod-telegram",
+    }
+    prod_names = {n["name"] for n in wf.get("nodes", []) if n.get("id") in prod_ids}
+    wf["nodes"] = [n for n in wf.get("nodes", []) if n.get("id") not in prod_ids]
+    old_conns = wf.get("connections", {})
+    cleaned = {}
+    for src, targets in old_conns.items():
+        if src in prod_names:
+            continue
+        cleaned[src] = {
+            ot: [[c for c in grp if c.get("node") not in prod_names] for grp in ol]
+            for ot, ol in targets.items()
+        }
+    wf["connections"] = cleaned
+
+    wf["nodes"] = wf["nodes"] + new_nodes
+    wf["connections"] = {**wf["connections"], **new_conns}
 
     put_body = {k: wf[k] for k in ["name", "nodes", "connections", "settings", "staticData"] if k in wf}
 
