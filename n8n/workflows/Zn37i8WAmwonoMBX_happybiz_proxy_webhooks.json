@@ -2350,8 +2350,7 @@
       "position": [
         1632,
         2416
-      ],
-      "webhookId": "cafe24-oauth-v1"
+      ]
     },
     {
       "parameters": {
@@ -6495,8 +6494,7 @@
         "position": [
           1632,
           2416
-        ],
-        "webhookId": "cafe24-oauth-v1"
+        ]
       },
       {
         "parameters": {
