@@ -2341,7 +2341,8 @@
       "parameters": {
         "path": "cafe24-oauth",
         "responseMode": "responseNode",
-        "options": {}
+        "options": {},
+        "httpMethod": "GET"
       },
       "id": "cafe24-oauth-webhook",
       "name": "Cafe24 OAuth 콜백",
