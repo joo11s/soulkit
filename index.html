@@ -509,7 +509,14 @@ function createStars(canvasId,count){
   }
   requestAnimationFrame(draw);
 }
-window.addEventListener('load',()=>{createStars('stars1',30);createStars('stars2',60);});
+window.addEventListener('load',()=>{
+  createStars('stars1',30);createStars('stars2',60);
+  if(localStorage.getItem('sk_logged_in')==='1'){
+    document.getElementById('landing').style.display='none';
+    document.getElementById('app').classList.add('show');
+    loadTheme();setDate();
+  }
+});
 
 // ── MODAL
 function openModal(){document.getElementById('modalBg').classList.add('open');setTimeout(()=>document.getElementById('modalInput').focus(),200)}
@@ -520,6 +527,7 @@ function bgClose(e){if(e.target===document.getElementById('modalBg'))closeModal(
 function doLogin(){
   if(document.getElementById('modalInput').value==='thdnf*1111'){
     closeModal();
+    localStorage.setItem('sk_logged_in','1');
     const landing=document.getElementById('landing');
     landing.classList.add('hide');
     setTimeout(()=>{
@@ -533,6 +541,7 @@ function doLogin(){
   }
 }
 function doLogout(){
+  localStorage.removeItem('sk_logged_in');
   document.getElementById('app').classList.remove('show');
   const landing=document.getElementById('landing');
   landing.style.display='block';
