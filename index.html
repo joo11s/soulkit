@@ -515,6 +515,8 @@ window.addEventListener('load',()=>{
     document.getElementById('landing').style.display='none';
     document.getElementById('app').classList.add('show');
     loadTheme();setDate();
+    const lastTab = localStorage.getItem('sk_last_tab');
+    if(lastTab!==null && lastTab!=='-1'){ switchTab(parseInt(lastTab,10)); }
   }
 });
 
@@ -560,6 +562,7 @@ function setDate(){
   document.getElementById('homeDate').textContent=`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} ${days[d.getDay()]}요일`;
 }
 function switchTab(i){
+  localStorage.setItem('sk_last_tab', i);
   document.querySelectorAll('.tab').forEach((t,idx)=>t.classList.toggle('active',idx===(i+1)));
   const home=document.getElementById('homeScreen');
   const wrap=document.getElementById('iframeWrap');
