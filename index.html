@@ -25,7 +25,7 @@
 ══════════════════════════════ */
 body.theme-dark{--abg:#0a0a16;--abg2:#06060f;--abg3:#1a1a2e;--aborder:#2a2a4a;--aborder2:#1e1e3a;--aaccent:#7c3aed;--aaccent2:#a78bfa;--atext:#e8e4ff;--atext2:#6b6b9a;--atext3:#3a3a5a;--tab-active:#a78bfa;--logo-c:#a78bfa;--chat-bg:#1e1040;--chat-border:#7c3aed;--chat-icon:#a78bfa;--iframe-bg:#050509;--btn-text:#06060f;--acard:#0d0d1f;--update:#111128}
 body.theme-light{--abg:#f8f6f0;--abg2:#ffffff;--abg3:#f0ede6;--aborder:#e0ddd4;--aborder2:#e8e5dc;--aaccent:#1a2b5e;--aaccent2:#2d4a8e;--atext:#1a2b5e;--atext2:#6b7a9a;--atext3:#b0aaa0;--tab-active:#1a2b5e;--logo-c:#1a2b5e;--chat-bg:#1a2b5e;--chat-border:#1a2b5e;--chat-icon:#ffffff;--iframe-bg:#f0ede6;--btn-text:#ffffff;--acard:#ffffff;--update:#f5f3ee}
-body.theme-soul{--abg:#0a0a16;--abg2:#06060f;--abg3:#1a1a2e;--aborder:#2a2a4a;--aborder2:#1e1e3a;--aaccent:#f5e6c8;--aaccent2:#f0d9a8;--atext:#f5e6c8;--atext2:#8a7a5a;--atext3:#3a3a5a;--tab-active:#f5e6c8;--logo-c:#f5e6c8;--chat-bg:#f5e6c8;--chat-border:#f5e6c8;--chat-icon:#0a0a16;--iframe-bg:#050509;--btn-text:#0a0a16;--acard:#0d0d1f;--update:#111128}
+body.theme-soul{--abg:#0a0a16;--abg2:#06060f;--abg3:#1a1a2e;--aborder:#2a2a4a;--aborder2:#1e1e3a;--aaccent:#D97757;--aaccent2:#e8946f;--atext:#e8e8f0;--atext2:#9494ad;--atext3:#6b6b8a;--tab-active:#D97757;--logo-c:#D97757;--chat-bg:#D97757;--chat-border:#D97757;--chat-icon:#0a0a16;--iframe-bg:#050509;--btn-text:#0a0a16;--acard:#0d0d1f;--update:#111128}
 
 /* ── LANDING WRAPPER ── */
 #landing{
@@ -185,9 +185,9 @@ body.theme-soul{--abg:#0a0a16;--abg2:#06060f;--abg3:#1a1a2e;--aborder:#2a2a4a;--
 .iframe-wrap{position:absolute;inset:0;background:var(--iframe-bg)}
 .iframe-wrap iframe{width:100%;height:100%;border:none}
 .coming-soon{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:10px}
-.coming-soon svg{width:36px;height:36px;fill:none;stroke:var(--atext3);stroke-width:1;opacity:.4}
-.cs-text{font-size:13px;color:var(--atext3);opacity:.5;letter-spacing:1px}
-.cs-sub{font-size:11px;color:var(--atext3);opacity:.3}
+.coming-soon svg{width:36px;height:36px;fill:none;stroke:var(--atext3);stroke-width:1;opacity:.8}
+.cs-text{font-size:13px;color:var(--atext3);opacity:.9;letter-spacing:1px}
+.cs-sub{font-size:11px;color:var(--atext3);opacity:.7}
 .home-screen{position:absolute;inset:0;overflow-y:auto;padding:20px 16px;display:none;background:var(--abg)}
 .home-screen.show{display:block}
 .home-greeting{margin-bottom:20px}
@@ -197,7 +197,7 @@ body.theme-soul{--abg:#0a0a16;--abg2:#06060f;--abg3:#1a1a2e;--aborder:#2a2a4a;--
 .tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
 .tool-card{background:var(--acard);border:1px solid var(--aborder);border-radius:12px;padding:16px 14px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
 .tool-card:hover{border-color:var(--aaccent2);transform:translateY(-1px)}
-.tool-card.disabled{opacity:.5;cursor:default}
+.tool-card.disabled{opacity:.65;cursor:default}
 .tool-card.disabled:hover{transform:none;border-color:var(--aborder)}
 .tc-icon{width:32px;height:32px;border-radius:8px;background:var(--abg3);border:1px solid var(--aborder);display:flex;align-items:center;justify-content:center;margin-bottom:10px}
 .tc-icon svg{width:16px;height:16px;fill:none;stroke:var(--aaccent2);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
@@ -396,8 +396,11 @@ body.theme-soul{--abg:#0a0a16;--abg2:#06060f;--abg3:#1a1a2e;--aborder:#2a2a4a;--
     <div class="tab active" onclick="switchTab(-1)" id="t-1"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><div class="tab-label">홈</div></div>
     <div class="tab" onclick="switchTab(0)" id="t0"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><div class="tab-label">이미지 에디터</div></div>
     <div class="tab" onclick="switchTab(1)" id="t1"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><div class="tab-label">상품명</div></div>
-    <div class="tab" onclick="switchTab(2)" id="t2"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><div class="tab-label">블로그</div><span class="tab-badge">준비중</span></div>
-    <div class="tab" onclick="switchTab(3)" id="t3"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg><div class="tab-label">영상</div><span class="tab-badge">준비중</span></div>
+    <div class="tab" onclick="switchTab(2)" id="t2"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><div class="tab-label">카페24 업로더</div></div>
+    <div class="tab" onclick="switchTab(3)" id="t3"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg><div class="tab-label">송장변환기</div></div>
+    <div class="tab" onclick="switchTab(4)" id="t4"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><div class="tab-label">블로그</div><span class="tab-badge">준비중</span></div>
+    <div class="tab" onclick="switchTab(5)" id="t5"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg><div class="tab-label">영상</div><span class="tab-badge">준비중</span></div>
+    <div class="tab" onclick="switchTab(6)" id="t6"><svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><path d="M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h.01"/></svg><div class="tab-label">마진계산기</div></div>
   </div>
   <div class="content-area">
     <div class="home-screen show" id="homeScreen">
@@ -408,8 +411,11 @@ body.theme-soul{--abg:#0a0a16;--abg2:#06060f;--abg3:#1a1a2e;--aborder:#2a2a4a;--
       <div class="tool-grid">
         <div class="tool-card" onclick="switchTab(0)"><div class="tc-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><div class="tc-name">이미지 에디터</div><div class="tc-desc">상품 이미지 편집 및 메인 이미지 생성</div></div>
         <div class="tool-card" onclick="switchTab(1)"><div class="tc-icon"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div><div class="tc-name">상품명 생성기</div><div class="tc-desc">네이버/쿠팡 최적화 상품명 + CPC 분석</div></div>
+        <div class="tool-card" onclick="switchTab(2)"><div class="tc-icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><div class="tc-name">카페24 업로더</div><div class="tc-desc">카페24 전용 상품 일괄 등록</div></div>
+        <div class="tool-card" onclick="switchTab(3)"><div class="tc-icon"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><div class="tc-name">송장변환기</div><div class="tc-desc">주문→택배 송장 자동 변환</div></div>
         <div class="tool-card disabled"><div class="tc-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="tc-name">블로그 툴</div><div class="tc-desc">AI 블로그 자동 생성 및 발행</div><span class="tc-soon">준비중</span></div>
         <div class="tool-card disabled"><div class="tc-icon"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div><div class="tc-name">영상 툴</div><div class="tc-desc">AI 쇼츠/영상 자동 생성</div><span class="tc-soon">준비중</span></div>
+        <div class="tool-card" onclick="switchTab(6)"><div class="tc-icon"><svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><path d="M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h.01"/></svg></div><div class="tc-name">마진계산기</div><div class="tc-desc">사입가/판매가 마진 계산</div></div>
       </div>
       <div class="section-title">업데이트 내역</div>
       <div class="update-list">
@@ -431,7 +437,7 @@ body.theme-soul{--abg:#0a0a16;--abg2:#06060f;--abg3:#1a1a2e;--aborder:#2a2a4a;--
       <div class="theme-grid">
         <div class="theme-card selected" onclick="setTheme('dark')" id="tc-dark"><div class="theme-preview" style="background:#0a0a16"><div class="tp-bar" style="background:#06060f"><div class="tp-dot" style="background:#a78bfa"></div><div class="tp-dot" style="background:#3a3a5a"></div></div><div class="tp-body" style="color:#a78bfa;background:#050509">✦</div></div><div class="theme-name">다크</div></div>
         <div class="theme-card" onclick="setTheme('light')" id="tc-light"><div class="theme-preview" style="background:#f8f6f0"><div class="tp-bar" style="background:#ffffff"><div class="tp-dot" style="background:#1a2b5e"></div><div class="tp-dot" style="background:#b0aaa0"></div></div><div class="tp-body" style="color:#1a2b5e;background:#f0ede6">✦</div></div><div class="theme-name">라이트</div></div>
-        <div class="theme-card" onclick="setTheme('soul')" id="tc-soul"><div class="theme-preview" style="background:#0a0a16"><div class="tp-bar" style="background:#06060f"><div class="tp-dot" style="background:#f5e6c8"></div><div class="tp-dot" style="background:#3a3a5a"></div></div><div class="tp-body" style="color:#f5e6c8;background:#050509">✦</div></div><div class="theme-name">소울</div></div>
+        <div class="theme-card" onclick="setTheme('soul')" id="tc-soul"><div class="theme-preview" style="background:#0a0a16"><div class="tp-bar" style="background:#06060f"><div class="tp-dot" style="background:#D97757"></div><div class="tp-dot" style="background:#6b6b8a"></div></div><div class="tp-body" style="color:#D97757;background:#050509">✦</div></div><div class="theme-name">소울</div></div>
       </div>
       <button class="logout-btn" onclick="doLogout()">로그아웃</button>
     </div>
@@ -449,8 +455,11 @@ body.theme-soul{--abg:#0a0a16;--abg2:#06060f;--abg3:#1a1a2e;--aborder:#2a2a4a;--
 const TABS=[
   {url:'https://soulkit-editor.pages.dev',ready:true,repo:'joo11s/soulkit-editor'},
   {url:'https://soulkit-name-generator.pages.dev',ready:true,repo:'joo11s/soulkit-name-generator'},
+  {url:'https://product-multi-uploader.pages.dev',ready:true,repo:'joo11s/product-multi-uploader'},
+  {url:'https://happybiz-invoice.pages.dev',ready:true,repo:'joo11s/happybiz-invoice'},
   {url:'',ready:false,repo:'joo11s/soulkit'},
-  {url:'',ready:false,repo:'joo11s/soulkit'}
+  {url:'',ready:false,repo:'joo11s/soulkit'},
+  {url:'https://margin-calculator-6f2.pages.dev',ready:true,repo:'joo11s/margin-calculator'}
 ];
 let fbType='bug';
 let currentTabIdx=-1;
