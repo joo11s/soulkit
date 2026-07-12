@@ -188,6 +188,13 @@ body.theme-soul{--abg:#0a0a16;--abg2:#06060f;--abg3:#1a1a2e;--aborder:#2a2a4a;--
 .coming-soon svg{width:36px;height:36px;fill:none;stroke:var(--atext3);stroke-width:1;opacity:.8}
 .cs-text{font-size:13px;color:var(--atext3);opacity:.9;letter-spacing:1px}
 .cs-sub{font-size:11px;color:var(--atext3);opacity:.7}
+.iframe-slot{position:absolute;inset:0;display:none}
+.iframe-slot.active{display:block}
+.iframe-slot iframe{width:100%;height:100%;border:none}
+.iframe-spinner{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--iframe-bg);z-index:2}
+.iframe-spinner.hidden{display:none}
+.spin-ring{width:32px;height:32px;border:2px solid var(--aborder);border-top-color:var(--aaccent2);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 .home-screen{position:absolute;inset:0;overflow-y:auto;padding:20px 16px;display:none;background:var(--abg)}
 .home-screen.show{display:block}
 .home-greeting{margin-bottom:20px}
@@ -425,8 +432,33 @@ body.theme-soul{--abg:#0a0a16;--abg2:#06060f;--abg3:#1a1a2e;--aborder:#2a2a4a;--
       </div>
     </div>
     <div class="iframe-wrap" id="iframeWrap" style="display:none">
-      <iframe id="mainFrame" src=""></iframe>
-      <div class="coming-soon" id="comingSoon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><div class="cs-text">준비중입니다</div><div class="cs-sub">곧 업데이트될 예정이에요</div></div>
+      <!-- Multi-iframe slots (lazy loaded, one per TABS entry) -->
+      <div class="iframe-slot" id="slot0">
+        <div class="iframe-spinner" id="spin0"><div class="spin-ring"></div></div>
+        <iframe id="frame0" src=""></iframe>
+      </div>
+      <div class="iframe-slot" id="slot1">
+        <div class="iframe-spinner" id="spin1"><div class="spin-ring"></div></div>
+        <iframe id="frame1" src=""></iframe>
+      </div>
+      <div class="iframe-slot" id="slot2">
+        <div class="iframe-spinner" id="spin2"><div class="spin-ring"></div></div>
+        <iframe id="frame2" src=""></iframe>
+      </div>
+      <div class="iframe-slot" id="slot3">
+        <div class="iframe-spinner" id="spin3"><div class="spin-ring"></div></div>
+        <iframe id="frame3" src=""></iframe>
+      </div>
+      <div class="iframe-slot" id="slot4">
+        <div class="coming-soon" style="display:flex"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><div class="cs-text">준비중입니다</div><div class="cs-sub">곧 업데이트될 예정이에요</div></div>
+      </div>
+      <div class="iframe-slot" id="slot5">
+        <div class="coming-soon" style="display:flex"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><div class="cs-text">준비중입니다</div><div class="cs-sub">곧 업데이트될 예정이에요</div></div>
+      </div>
+      <div class="iframe-slot" id="slot6">
+        <div class="iframe-spinner" id="spin6"><div class="spin-ring"></div></div>
+        <iframe id="frame6" src=""></iframe>
+      </div>
     </div>
   </div>
   <div class="overlay" id="overlay" onclick="closeSettings()"></div>
@@ -575,12 +607,24 @@ function switchTab(i){
   document.querySelectorAll('.tab').forEach((t,idx)=>t.classList.toggle('active',idx===(i+1)));
   const home=document.getElementById('homeScreen');
   const wrap=document.getElementById('iframeWrap');
-  currentTabIdx=i;if(i===-1){home.classList.add('show');wrap.style.display='none';return;}
+  currentTabIdx=i;
+  if(i===-1){home.classList.add('show');wrap.style.display='none';return;}
   home.classList.remove('show');wrap.style.display='block';
-  const fr=document.getElementById('mainFrame');
-  const cs=document.getElementById('comingSoon');
-  if(TABS[i].ready){fr.style.display='block';cs.style.display='none';if(fr.src!==TABS[i].url)fr.src=TABS[i].url;}
-  else{fr.style.display='none';cs.style.display='flex';}
+  // Hide all slots, show only the active one
+  for(let s=0;s<TABS.length;s++){
+    const slot=document.getElementById('slot'+s);
+    if(slot)slot.classList.toggle('active',s===i);
+  }
+  // Lazy load: only set src on first visit (if not already set)
+  if(TABS[i].ready){
+    const fr=document.getElementById('frame'+i);
+    const sp=document.getElementById('spin'+i);
+    if(fr&&fr.getAttribute('src')===''){
+      if(sp)sp.classList.remove('hidden');
+      fr.onload=function(){if(sp)sp.classList.add('hidden');};
+      fr.src=TABS[i].url;
+    }
+  }
 }
 function setTheme(t){
   document.body.className='theme-'+t;
