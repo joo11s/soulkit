@@ -401,6 +401,7 @@ body.theme-soul{--abg:#0a0a16;--abg2:#06060f;--abg3:#1a1a2e;--aborder:#2a2a4a;--
   </div>
   <div class="tabs">
     <div class="tab active" onclick="switchTab(-1)" id="t-1"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><div class="tab-label">홈</div></div>
+    <div class="tab" onclick="switchSourcing()" id="t-sourcing"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg><div class="tab-label">소싱검토</div></div>
     <div class="tab" onclick="switchTab(0)" id="t0"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><div class="tab-label">이미지 에디터</div></div>
     <div class="tab" onclick="switchTab(1)" id="t1"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><div class="tab-label">상품명</div></div>
     <div class="tab" onclick="switchTab(2)" id="t2"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><div class="tab-label">통합 업로더</div></div>
@@ -433,6 +434,10 @@ body.theme-soul{--abg:#0a0a16;--abg2:#06060f;--abg3:#1a1a2e;--aborder:#2a2a4a;--
     </div>
     <div class="iframe-wrap" id="iframeWrap" style="display:none">
       <!-- Multi-iframe slots (lazy loaded, one per TABS entry) -->
+      <div class="iframe-slot" id="slot-sourcing">
+        <div class="iframe-spinner" id="spin-sourcing"><div class="spin-ring"></div></div>
+        <iframe id="frame-sourcing" src=""></iframe>
+      </div>
       <div class="iframe-slot" id="slot0">
         <div class="iframe-spinner" id="spin0"><div class="spin-ring"></div></div>
         <iframe id="frame0" src=""></iframe>
@@ -557,7 +562,10 @@ window.addEventListener('load',()=>{
     document.getElementById('app').classList.add('show');
     loadTheme();setDate();
     const lastTab = localStorage.getItem('sk_last_tab');
-    if(lastTab!==null && lastTab!=='-1'){ switchTab(parseInt(lastTab,10)); }
+    if(lastTab!==null && lastTab!=='-1'){
+      if(lastTab==='sourcing'){ switchSourcing(); }
+      else{ switchTab(parseInt(lastTab,10)); }
+    }
   }
 });
 
@@ -604,13 +612,15 @@ function setDate(){
 }
 function switchTab(i){
   localStorage.setItem('sk_last_tab', i);
-  document.querySelectorAll('.tab').forEach((t,idx)=>t.classList.toggle('active',idx===(i+1)));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('t'+i).classList.add('active');
   const home=document.getElementById('homeScreen');
   const wrap=document.getElementById('iframeWrap');
   currentTabIdx=i;
   if(i===-1){home.classList.add('show');wrap.style.display='none';return;}
   home.classList.remove('show');wrap.style.display='block';
-  // Hide all slots, show only the active one
+  // Hide all slots (including sourcing), show only the active one
+  document.getElementById('slot-sourcing').classList.remove('active');
   for(let s=0;s<TABS.length;s++){
     const slot=document.getElementById('slot'+s);
     if(slot)slot.classList.toggle('active',s===i);
@@ -624,6 +634,24 @@ function switchTab(i){
       fr.onload=function(){if(sp)sp.classList.add('hidden');};
       fr.src=TABS[i].url;
     }
+  }
+}
+function switchSourcing(){
+  localStorage.setItem('sk_last_tab','sourcing');
+  document.getElementById('homeScreen').classList.remove('show');
+  const wrap=document.getElementById('iframeWrap');
+  wrap.style.display='block';
+  for(let s=0;s<TABS.length;s++){const slot=document.getElementById('slot'+s);if(slot)slot.classList.remove('active');}
+  document.getElementById('slot-sourcing').classList.add('active');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('t-sourcing').classList.add('active');
+  currentTabIdx='sourcing';
+  const fr=document.getElementById('frame-sourcing');
+  const sp=document.getElementById('spin-sourcing');
+  if(fr&&fr.getAttribute('src')===''){
+    if(sp)sp.classList.remove('hidden');
+    fr.onload=function(){if(sp)sp.classList.add('hidden');};
+    fr.src='https://soulkit-sourcing.pages.dev/';
   }
 }
 function setTheme(t){
