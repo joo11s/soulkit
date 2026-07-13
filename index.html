@@ -654,7 +654,7 @@ function switchSourcing(){
     fr.src='https://soulkit-sourcing.pages.dev/';
   }
 }
-// soulkit-transfer: relay messages from sourcing iframe to target iframes
+// soulkit-transfer: relay messages from sourcing iframe to target iframes (retry+ack)
 window.addEventListener('message',function(e){
   if(!e.data||e.data.channel!=='soulkit-transfer')return;
   var targetMap={'image-editor':{idx:0,frId:'frame0'},'name-generator':{idx:1,frId:'frame1'}};
@@ -666,14 +666,20 @@ window.addEventListener('message',function(e){
   if(fr.getAttribute('src')===''){
     var sp=document.getElementById('spin'+t.idx);
     if(sp)sp.classList.remove('hidden');
-    fr.addEventListener('load',function onLoad(){
-      fr.removeEventListener('load',onLoad);
-      fr.contentWindow.postMessage(e.data,'*');
-    });
     fr.src=TABS[t.idx].url;
-  }else{
-    fr.contentWindow.postMessage(e.data,'*');
   }
+  var msgId=Date.now()+'-'+Math.random();
+  var attempts=0;
+  var iv=setInterval(function(){
+    if(attempts>=10){clearInterval(iv);return;}
+    attempts++;
+    fr.contentWindow.postMessage(Object.assign({},e.data,{__msgId:msgId}),'*');
+  },200);
+  window.addEventListener('message',function ackListener(ev){
+    if(!ev.data||ev.data.channel!=='soulkit-transfer-ack'||ev.data.msgId!==msgId)return;
+    clearInterval(iv);
+    window.removeEventListener('message',ackListener);
+  });
 });
 function setTheme(t){
   document.body.className='theme-'+t;
