@@ -654,6 +654,27 @@ function switchSourcing(){
     fr.src='https://soulkit-sourcing.pages.dev/';
   }
 }
+// soulkit-transfer: relay messages from sourcing iframe to target iframes
+window.addEventListener('message',function(e){
+  if(!e.data||e.data.channel!=='soulkit-transfer')return;
+  var targetMap={'image-editor':{idx:0,frId:'frame0'},'name-generator':{idx:1,frId:'frame1'}};
+  var t=targetMap[e.data.target];
+  if(!t)return;
+  switchTab(t.idx);
+  var fr=document.getElementById(t.frId);
+  if(!fr)return;
+  if(fr.getAttribute('src')===''){
+    var sp=document.getElementById('spin'+t.idx);
+    if(sp)sp.classList.remove('hidden');
+    fr.addEventListener('load',function onLoad(){
+      fr.removeEventListener('load',onLoad);
+      fr.contentWindow.postMessage(e.data,'*');
+    });
+    fr.src=TABS[t.idx].url;
+  }else{
+    fr.contentWindow.postMessage(e.data,'*');
+  }
+});
 function setTheme(t){
   document.body.className='theme-'+t;
   localStorage.setItem('sk_theme',t);
