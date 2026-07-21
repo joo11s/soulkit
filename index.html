@@ -657,7 +657,7 @@ function switchSourcing(){
 // soulkit-transfer: relay messages from sourcing iframe to target iframes (retry+ack)
 window.addEventListener('message',function(e){
   if(!e.data||e.data.channel!=='soulkit-transfer')return;
-  var targetMap={'image-editor':{idx:0,frId:'frame0'},'name-generator':{idx:1,frId:'frame1'}};
+  var targetMap={'image-editor':{idx:0,frId:'frame0'},'name-generator':{idx:1,frId:'frame1'},'uploader':{idx:2,frId:'frame2'}};
   var t=targetMap[e.data.target];
   if(!t)return;
   switchTab(t.idx);
