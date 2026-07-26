@@ -406,6 +406,7 @@ body.theme-soul{--abg:#0a0a16;--abg2:#06060f;--abg3:#1a1a2e;--aborder:#2a2a4a;--
     <div class="tab" onclick="switchTab(1)" id="t1"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><div class="tab-label">상품명</div></div>
     <div class="tab" onclick="switchTab(2)" id="t2"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><div class="tab-label">통합 업로더</div></div>
     <div class="tab" onclick="switchTab(3)" id="t3"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg><div class="tab-label">주문배송관리</div></div>
+    <div class="tab" onclick="switchCS()" id="t-cs"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><div class="tab-label">CS통합관리</div></div>
     <div class="tab" onclick="switchTab(4)" id="t4"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><div class="tab-label">블로그</div></div>
     <div class="tab" onclick="switchTab(5)" id="t5"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg><div class="tab-label">영상</div><span class="tab-badge">준비중</span></div>
     <div class="tab" onclick="switchTab(6)" id="t6"><svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><path d="M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h.01"/></svg><div class="tab-label">마진계산기</div></div>
@@ -437,6 +438,10 @@ body.theme-soul{--abg:#0a0a16;--abg2:#06060f;--abg3:#1a1a2e;--aborder:#2a2a4a;--
       <div class="iframe-slot" id="slot-sourcing">
         <div class="iframe-spinner" id="spin-sourcing"><div class="spin-ring"></div></div>
         <iframe id="frame-sourcing" src=""></iframe>
+      </div>
+      <div class="iframe-slot" id="slot-cs">
+        <div class="iframe-spinner" id="spin-cs"><div class="spin-ring"></div></div>
+        <iframe id="frame-cs" src=""></iframe>
       </div>
       <div class="iframe-slot" id="slot0">
         <div class="iframe-spinner" id="spin0"><div class="spin-ring"></div></div>
@@ -565,6 +570,7 @@ window.addEventListener('load',()=>{
     const lastTab = localStorage.getItem('sk_last_tab');
     if(lastTab!==null && lastTab!=='-1'){
       if(lastTab==='sourcing'){ switchSourcing(); }
+      else if(lastTab==='cs'){ switchCS(); }
       else{ switchTab(parseInt(lastTab,10)); }
     }
   }
@@ -620,8 +626,9 @@ function switchTab(i){
   currentTabIdx=i;
   if(i===-1){home.classList.add('show');wrap.style.display='none';return;}
   home.classList.remove('show');wrap.style.display='block';
-  // Hide all slots (including sourcing), show only the active one
+  // Hide all slots (including sourcing and cs), show only the active one
   document.getElementById('slot-sourcing').classList.remove('active');
+  document.getElementById('slot-cs').classList.remove('active');
   for(let s=0;s<TABS.length;s++){
     const slot=document.getElementById('slot'+s);
     if(slot)slot.classList.toggle('active',s===i);
@@ -643,6 +650,7 @@ function switchSourcing(){
   const wrap=document.getElementById('iframeWrap');
   wrap.style.display='block';
   for(let s=0;s<TABS.length;s++){const slot=document.getElementById('slot'+s);if(slot)slot.classList.remove('active');}
+  document.getElementById('slot-cs').classList.remove('active');
   document.getElementById('slot-sourcing').classList.add('active');
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('t-sourcing').classList.add('active');
@@ -653,6 +661,25 @@ function switchSourcing(){
     if(sp)sp.classList.remove('hidden');
     fr.onload=function(){if(sp)sp.classList.add('hidden');};
     fr.src='https://soulkit-sourcing.pages.dev/';
+  }
+}
+function switchCS(){
+  localStorage.setItem('sk_last_tab','cs');
+  document.getElementById('homeScreen').classList.remove('show');
+  const wrap=document.getElementById('iframeWrap');
+  wrap.style.display='block';
+  for(let s=0;s<TABS.length;s++){const slot=document.getElementById('slot'+s);if(slot)slot.classList.remove('active');}
+  document.getElementById('slot-sourcing').classList.remove('active');
+  document.getElementById('slot-cs').classList.add('active');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('t-cs').classList.add('active');
+  currentTabIdx='cs';
+  const fr=document.getElementById('frame-cs');
+  const sp=document.getElementById('spin-cs');
+  if(fr&&fr.getAttribute('src')===''){
+    if(sp)sp.classList.remove('hidden');
+    fr.onload=function(){if(sp)sp.classList.add('hidden');};
+    fr.src='https://soulkit-cs.pages.dev/';
   }
 }
 // soulkit-transfer: relay messages from sourcing iframe to target iframes (retry+ack)
