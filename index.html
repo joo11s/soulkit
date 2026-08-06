@@ -166,6 +166,33 @@ body.theme-soul{--abg:#0a0a16;--abg2:#06060f;--abg3:#1a1a2e;--aborder:#2a2a4a;--
 #app{display:none;height:100vh;overflow:hidden;flex-direction:column}
 #app.show{display:flex}
 
+/* ── NOTIFICATION BELL ── */
+.notif-wrap{position:relative;display:flex;align-items:center}
+#notif-bell{width:30px;height:30px;border-radius:50%;background:var(--abg3);border:1px solid var(--aborder);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .2s;position:relative}
+#notif-bell:hover{border-color:var(--aaccent2)}
+#notif-bell svg{width:15px;height:15px;fill:none;stroke:var(--atext2);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
+#notif-bell:hover svg{stroke:var(--aaccent2)}
+#notif-badge{position:absolute;top:-4px;right:-4px;background:#ef4444;color:#fff;font-size:9px;font-weight:700;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 3px;border:1.5px solid var(--abg2);line-height:1;font-family:'Space Mono',monospace;display:none}
+#notif-badge.show{display:flex}
+#notif-panel{position:absolute;top:calc(100% + 10px);right:0;width:340px;max-height:480px;background:var(--abg2);border:1px solid var(--aborder);border-radius:12px;z-index:2000;display:none;flex-direction:column;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+#notif-panel.open{display:flex}
+#notif-panel-head{padding:12px 16px;border-bottom:1px solid var(--aborder2);display:flex;align-items:center;justify-content:space-between;background:var(--abg);flex-shrink:0}
+#notif-panel-title{font-size:11px;font-weight:700;color:var(--aaccent2);font-family:'Space Mono',monospace;letter-spacing:1px}
+#notif-panel-close{background:none;border:none;color:var(--atext2);cursor:pointer;font-size:14px;line-height:1;padding:0}
+#notif-panel-close:hover{color:var(--atext)}
+#notif-list{overflow-y:auto;flex:1;padding:8px 0}
+.notif-item{padding:12px 16px;border-bottom:0.5px solid var(--aborder2);display:flex;flex-direction:column;gap:6px}
+.notif-item:last-child{border-bottom:none}
+.notif-item-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.notif-item-meta{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
+.notif-item-workflow{font-size:11px;font-weight:700;color:var(--gold);font-family:'Space Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.notif-item-time{font-size:9px;color:var(--atext3);font-family:'Space Mono',monospace}
+.notif-item-node{font-size:10px;color:var(--atext2);margin-top:2px}
+.notif-item-msg{font-size:11px;color:var(--atext);line-height:1.5;word-break:break-word}
+.notif-confirm-btn{background:transparent;border:1px solid var(--aborder);border-radius:5px;color:var(--atext2);font-size:10px;padding:4px 10px;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;font-family:'Space Mono',monospace;letter-spacing:0.5px}
+.notif-confirm-btn:hover{border-color:var(--gold);color:var(--gold)}
+.notif-empty{padding:32px 16px;text-align:center;color:var(--atext3);font-size:12px;font-family:'Space Mono',monospace;letter-spacing:1px}
+
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:50px;background:var(--abg2);border-bottom:1px solid var(--aborder2);flex-shrink:0}
 .logo-wrap{display:flex;align-items:center;gap:8px}
 .logo-sym{font-size:16px;color:var(--aaccent2)}
@@ -395,8 +422,23 @@ body.theme-soul{--abg:#0a0a16;--abg2:#06060f;--abg3:#1a1a2e;--aborder:#2a2a4a;--
 <div id="app">
   <div class="topbar">
     <div class="logo-wrap"><span class="logo-sym">✦</span><span class="logo">SOULKIT</span></div>
-    <div class="icon-btn" onclick="openSettings()">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="notif-wrap">
+        <div id="notif-bell" onclick="toggleNotifPanel()">
+          <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span id="notif-badge"></span>
+        </div>
+        <div id="notif-panel">
+          <div id="notif-panel-head">
+            <span id="notif-panel-title">✦ 에러 알림</span>
+            <button id="notif-panel-close" onclick="toggleNotifPanel()">✕</button>
+          </div>
+          <div id="notif-list"></div>
+        </div>
+      </div>
+      <div class="icon-btn" onclick="openSettings()">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </div>
     </div>
   </div>
   <div class="tabs">
@@ -740,6 +782,132 @@ async function sendFb(){
 }
 document.getElementById('fb-input').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.ctrlKey)sendFb();});
 document.getElementById('fb-send').addEventListener('click',sendFb);
+
+// ── NOTIFICATION BELL
+(function(){
+  const FETCH_URL='https://n8n.wonflowai.com/webhook/soulkit-error-log';
+  const READ_URL='https://n8n.wonflowai.com/webhook/soulkit-error-log-read';
+  let notifErrors=[];
+
+  function formatTs(ts){
+    try{
+      const d=new Date(ts);
+      return d.toLocaleString('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false});
+    }catch(e){return ts||''}
+  }
+
+  function renderList(){
+    const list=document.getElementById('notif-list');
+    if(!list)return;
+    if(notifErrors.length===0){
+      list.innerHTML='<div class="notif-empty">확인할 에러가 없습니다</div>';
+      return;
+    }
+    list.innerHTML='';
+    // newest-first: sort by timestamp descending
+    const sorted=[...notifErrors].sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp));
+    sorted.forEach(err=>{
+      const item=document.createElement('div');
+      item.className='notif-item';
+      item.dataset.id=err.id;
+      item.innerHTML=`
+        <div class="notif-item-header">
+          <div class="notif-item-meta">
+            <div class="notif-item-workflow">${escHtml(err.workflow_name||'')}</div>
+            <div class="notif-item-time">${formatTs(err.timestamp)}</div>
+            <div class="notif-item-node">노드: ${escHtml(err.node_name||'')}</div>
+          </div>
+          <button class="notif-confirm-btn" data-id="${escHtml(String(err.id))}">확인</button>
+        </div>
+        <div class="notif-item-msg">${escHtml(err.error_message||'')}</div>
+      `;
+      list.appendChild(item);
+    });
+    // Attach confirm button listeners
+    list.querySelectorAll('.notif-confirm-btn').forEach(btn=>{
+      btn.addEventListener('click',function(e){
+        e.stopPropagation();
+        markAsRead(this.dataset.id,this);
+      });
+    });
+  }
+
+  function updateBadge(count){
+    const badge=document.getElementById('notif-badge');
+    if(!badge)return;
+    if(count>0){
+      badge.textContent=count>99?'99+':String(count);
+      badge.classList.add('show');
+    }else{
+      badge.textContent='';
+      badge.classList.remove('show');
+    }
+  }
+
+  function escHtml(str){
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  async function fetchErrors(){
+    try{
+      const res=await fetch(FETCH_URL,{cache:'no-store'});
+      if(!res.ok)throw new Error('HTTP '+res.status);
+      const data=await res.json();
+      const count=typeof data.count==='number'?data.count:0;
+      notifErrors=Array.isArray(data.errors)?data.errors:[];
+      updateBadge(count);
+      // re-render if panel is open
+      if(document.getElementById('notif-panel').classList.contains('open')){
+        renderList();
+      }
+    }catch(e){
+      console.error('[notif] fetch error:',e);
+    }
+  }
+
+  async function markAsRead(id,btn){
+    if(btn){btn.disabled=true;btn.textContent='처리중...';}
+    try{
+      const res=await fetch(READ_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})});
+      if(!res.ok)throw new Error('HTTP '+res.status);
+      // Remove from local list
+      notifErrors=notifErrors.filter(e=>String(e.id)!==String(id));
+      const newCount=notifErrors.filter(e=>!e.read).length;
+      // Use length as approximate unread count
+      updateBadge(notifErrors.length);
+      renderList();
+    }catch(e){
+      console.error('[notif] markAsRead error:',e);
+      if(btn){btn.disabled=false;btn.textContent='확인';}
+    }
+  }
+
+  function toggleNotifPanel(){
+    const panel=document.getElementById('notif-panel');
+    if(!panel)return;
+    const isOpen=panel.classList.toggle('open');
+    if(isOpen){renderList();}
+  }
+
+  // Close panel when clicking outside
+  document.addEventListener('click',function(e){
+    const panel=document.getElementById('notif-panel');
+    const bell=document.getElementById('notif-bell');
+    if(!panel||!bell)return;
+    if(panel.classList.contains('open')&&!panel.contains(e.target)&&!bell.contains(e.target)){
+      panel.classList.remove('open');
+    }
+  });
+
+  // Expose toggleNotifPanel globally
+  window.toggleNotifPanel=toggleNotifPanel;
+
+  // Initial fetch on load + poll every 60s
+  window.addEventListener('load',function(){
+    fetchErrors();
+    setInterval(fetchErrors,60000);
+  });
+})();
 </script>
 </body>
 </html>
